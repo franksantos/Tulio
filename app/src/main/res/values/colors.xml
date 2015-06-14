@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="actionbar_background">#FF669900</color> //write the color you want here
+    <color name="actionbar_background2">#D1B142</color> //write the color you want here
+    <item name="transparent" type="color">#00FFFFFF</item>
+
+    <item name="grey" type="color">#555555</item>
+
+    <item name="green" type="color">#4499CC00</item>
+
+    <item name="darkgreen" type="color">#FF669900</item>
+</resources>

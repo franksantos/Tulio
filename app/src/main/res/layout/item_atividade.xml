@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageAtiv"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@android:drawable/ic_dialog_dialer"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Português"
+        android:id="@+id/txtAtivTitulo"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageAtiv"
+        android:layout_toEndOf="@+id/imageAtiv"
+        android:textSize="18dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Folha de Leitura página 7, atividade de memorizaão da aula de soma , subtração e multiplicação"
+        android:id="@+id/txtAtivDesc"
+        android:textSize="14dp"
+        android:layout_below="@+id/txtAtivTitulo"
+        android:layout_toRightOf="@+id/imageAtiv"
+        android:layout_toLeftOf="@+id/checkBox"
+        android:layout_toStartOf="@+id/checkBox" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox"
+        android:checked="false"
+        android:layout_alignTop="@+id/txtAtivTitulo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20/04/2015"
+        android:id="@+id/txtAtivData"
+        android:textSize="11dp"
+        android:layout_below="@+id/txtAtivDesc"
+        android:layout_toRightOf="@+id/imageAtiv"
+        android:layout_toEndOf="@+id/imageAtiv" />
+</RelativeLayout>

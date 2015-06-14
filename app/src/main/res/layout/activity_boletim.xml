@@ -1,0 +1,640 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent">
+    <RelativeLayout
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        tools:context="viasistemasweb.com.tulioprofessor.CadBoletimNotasAluno">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/fotoDoaluno"
+            android:src="@drawable/kaleb_samuel"
+            android:layout_marginBottom="10dp"
+            android:background="#F6F6F6" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Kaleb Samuel Mascena Santos"
+            android:id="@+id/nomeDoAlunoDaFoto"
+            android:layout_below="@id/fotoDoaluno"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/nomeDoAlunoDaFoto"
+            android:id="@+id/linearLayout">
+
+            <TableLayout
+                android:id="@+id/tabla_cuerpo"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="#000">
+
+                <TableRow
+                    android:id="@+id/tableRow1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="#000"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/textView1"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Quadro de Notas"/>
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvDisciplina"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Disciplina"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="1ª"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="2ª"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="3ª"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="4ª"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvArtes"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Artes"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#F2F2F2"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtArtesNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal"
+                        android:textColor="#000"
+                        android:maxLength="3"
+                        android:inputType="numberDecimal" />
+                    <TextView
+                        android:background="#F2F2F2"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtArtesNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal"
+                        android:inputType="numberDecimal"
+                        android:maxLength="3" />
+                    <TextView
+                        android:background="#F2F2F2"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtArtesNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal"
+                        android:inputType="numberDecimal"
+                        android:maxLength="3" />
+                    <TextView
+                        android:background="#F2F2F2"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtArtesNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal"
+                        android:inputType="numberDecimal"
+                        android:maxLength="3" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvCiencias"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Ciências"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#F2F2F2"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtCienciasNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal"
+                        android:maxLength="3"
+                        android:inputType="numberDecimal"
+                        android:textColor="#000" />
+                    <TextView
+                        android:background="#F2F2F2"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtCienciasNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal"
+                        android:inputType="numberDecimal"
+                        android:maxLength="3"
+                        android:textColor="#000" />
+                    <TextView
+                        android:background="#F2F2F2"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtCienciasNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal"
+                        android:maxLength="3"
+                        android:inputType="numberDecimal"
+                        android:textColor="#000" />
+                    <TextView
+                        android:background="#F2F2F2"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtCienciasNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal"
+                        android:textColor="#000"
+                        android:inputType="numberDecimal" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvEtica"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Ética"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtEticaNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtEticaNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtEticaNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtEticaNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvGeografia"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Geografia"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtGeoNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtGeoNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtGeoNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtGeoNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvHistoria"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="História"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtHisNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtHisNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtHisNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtHisNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvIngles"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Inglês"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtInglesNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtInglesNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtInglesNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtInglesNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvMatematica"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Matemática"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtMatNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtMatNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtMatNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtMatNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvPortugues"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Português"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtPortNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtPortNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtPortNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtPortNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+                <TableRow
+                    android:id="@+id/tableRow11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/tvReligiao"
+                        android:layout_weight="0.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Religião"
+                        android:paddingLeft="5dp"
+                        />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtRelNota1"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:paddingLeft="5dp"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtRelNota2"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtRelNota3"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:gravity="center_horizontal" />
+                    <TextView
+                        android:background="#FFF"
+                        android:layout_margin="1dip"
+                        android:id="@+id/txtRelNota4"
+                        android:layout_weight="0.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:layout_marginLeft="3dp"
+                        android:gravity="center_horizontal" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</ScrollView>

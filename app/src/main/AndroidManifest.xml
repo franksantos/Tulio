@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="viasistemasweb.com.tulio" >
+
+    <!-- #### PushBots ### -->
+    <!-- GCM connects to Google Services. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="viasistemasweb.com.tulio.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="viasistemasweb.com.tulio.permission.C2D_MESSAGE" />
+    <!-- This app has permission to register and receive dataf message. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- #### FIM PushBots ### -->
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/CustomActionBarTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="viasistemasweb.com.tulio.MESSAGE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Atividades"
+            android:label="@string/title_activity_atividades"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/CustomActionBarTheme" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="viasistemasweb.com.tulio.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Avisos"
+            android:label="@string/title_activity_avisos"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/CustomActionBarTheme2" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="viasistemasweb.com.tulio.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Boletim"
+            android:label="@string/title_activity_boletim"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/CustomActionBarTheme" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="viasistemasweb.com.tulio.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Eventos"
+            android:label="@string/title_activity_eventos"
+            android:parentActivityName=".MainActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="viasistemasweb.com.tulio.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Pendencias"
+            android:label="@string/title_activity_pendencias"
+            android:parentActivityName=".MainActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="viasistemasweb.com.tulio.MainActivity" />
+        </activity>
+
+        <!-- ###### PushBots ####### -->
+        <receiver
+            android:name="com.pushbots.google.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- Receives the registration id. -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="viasistemasweb.com.tulio" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.pushbots.push.DefaultPushHandler" />
+
+        <service android:name="com.pushbots.push.GCMIntentService" />
+        <!-- ###### FIM PushBots ####### -->
+        <activity
+            android:name=".AtividadeBD"
+            android:label="@string/title_activity_atividade_bd" >
+        </activity>
+        <activity
+            android:name=".AvisosDescricao"
+            android:label="@string/title_activity_avisos_descricao"
+            android:parentActivityName=".Avisos"
+            android:theme="@style/CustomActionBarTheme2" >
+        </activity>
+        <activity
+            android:name=".Login"
+            android:label="@string/title_activity_login"
+            android:theme="@style/CustomActionBarTheme2">
+        </activity>
+    </application>
+
+</manifest>

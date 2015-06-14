@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Tulio</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_atividades">Atividades</string>
+    <string name="title_activity_avisos">Avisos</string>
+    <string name="title_activity_boletim">Boletim</string>
+    <string name="title_activity_eventos">Eventos</string>
+    <string name="title_activity_pendencias">Pendencias</string>
+    <string name="title_activity_atividade_bd">Atividade</string>
+    <string name="title_activity_avisos_descricao">Detalhes do Aviso</string>
+    <string name="erro_conexao_indisponivel">Conexão indisponível, por favor ative sua rede móvel ou Wi-Fi.</string>
+    <string name="title_activity_login">Login</string>
+</resources>

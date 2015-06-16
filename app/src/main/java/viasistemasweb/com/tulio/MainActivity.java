@@ -61,26 +61,26 @@ public class MainActivity extends ActionBarActivity {
         Pushbots.sharedInstance().init(this);
         //passando os dados do pushbots
         Pushbots.sharedInstance().regID();
-        Pushbots.sharedInstance().setAlias("Frank");
-        Pushbots.sharedInstance().tag("1� Ano");
-        Boolean teste = Pushbots.sharedInstance().getNotifyStatus();
+        //Pushbots.sharedInstance().setAlias("Frank");
+        //Pushbots.sharedInstance().tag("1� Ano");
+        //Boolean teste = Pushbots.sharedInstance().getNotifyStatus();
 
         DataBaseHandler db = new DataBaseHandler(getApplicationContext());
 
         // Session class instance
-        session = new SessionManager(getApplicationContext());
+        //session = new SessionManager(getApplicationContext());
         /**
          * Call this function whenever you want to check user login
          * This will redirect user to LoginActivity is he is not
          * logged in
          * */
-        session.checkLogin();
+        //session.checkLogin();
 
         // get user data from session
-        HashMap<String, String> userLog = session.getUserDetails();
+        //HashMap<String, String> userLog = session.getUserDetails();
 
         // name
-        String cpfLogadoVindoDoSharedPreferences = userLog.get(SessionManager.KEY_NAME);
+        //String cpfLogadoVindoDoSharedPreferences = userLog.get(SessionManager.KEY_NAME);
 
         //Log.d("cpf logado = ", cpfLogadoVindoDoSharedPreferences);
 
@@ -88,41 +88,56 @@ public class MainActivity extends ActionBarActivity {
         /** verifico se o usuário está logado */
         UserFunctions u = new UserFunctions();
         if(u.isUserLoggedIn(MainActivity.this)){
+            //ta logado
+            //Toast.makeText(MainActivity.this, "Usuario logado", Toast.LENGTH_SHORT).show();
+            /**
+             * Hashmap to load data from the Sqlite database
+             **/
+            HashMap userHash = new HashMap();
+            userHash = db.getUserDetails();
+            //String id = userHash.get()
+            String cpf = userHash.get("cpf").toString();
 
-        }
+            //Toast.makeText(MainActivity.this, "cpf = "+cpf,Toast.LENGTH_SHORT).show();
 
-        /**
-         * Hashmap to load data from the Sqlite database
-         **/
-        HashMap user = new HashMap();
-        user = db.getUserDetails();
-
-        /** verifico se o usuário já está salvo no banco de dados SQLite
-         */
-        if(user.get("cpf")!=null || user.get("cpf")!= ""){
+            /** verifico se o usuário já está salvo no banco de dados SQLite
+            if(userHash.get("cpf")!=null || userHash.get("cpf")!= ""){
             //achou o cpf no banco de dados SQLite
             //Portanto não precisa ir para a tela de login, o usuário já possui cadastro
-            login = false;
-        }
-        //recebe a variável login da tela de login
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            //veio do login com a variável login=false
-            login=false;
-            /*SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE);
-            String cpf = sharedPreferences.getString("cpf", null);*/
-
+                login = false;
+            }else{
+                //usuário precisa logar
+                login = true;
+            }*/
         }else{
-            login = true;
-        }
-        //chama a tela de login
-        if(login==true){
+            Toast.makeText(MainActivity.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
             Intent l = new Intent(MainActivity.this, Login.class);
             Bundle b = new Bundle();
             b.putBoolean("login", true);
             l.putExtras(b);
             startActivity(l);
         }
+
+
+        //recebe a variável login da tela de login
+        //Bundle extras = getIntent().getExtras();
+        //if(extras != null){
+            //veio do login com a variável login=false
+            //login=false;
+            /*SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE);
+            String cpf = sharedPreferences.getString("cpf", null);*/
+
+        //}else{
+            //login = true;
+        //}
+        //chama a tela de login
+        //if(login==true){
+            //Intent l = new Intent(MainActivity.this, Login.class);
+            //Bundle b = new Bundle();
+            //b.putBoolean("login", true);
+            //l.putExtras(b);
+            //startActivity(l);
+       // }
 
 
         /**

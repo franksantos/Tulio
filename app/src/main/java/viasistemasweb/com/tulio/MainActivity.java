@@ -158,16 +158,52 @@ public class MainActivity extends ActionBarActivity {
                         startActivity(ativ);
                         break;
                     case 1:
-                        Intent aviso = new Intent(getApplicationContext(), Avisos.class);
-                        startActivity(aviso);
+                        /**
+                         * Check se tem internet
+                         */
+                        ChecaInternet on = new ChecaInternet();
+                        Boolean online = on.isInternetAvailable(MainActivity.this);
+                        if(online){
+                            Intent aviso = new Intent(getApplicationContext(), Avisos.class);
+                            startActivity(aviso);
+                        }else{
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
+                            alerta.setTitle("Sem Conexão com a internet");
+                            alerta.setMessage("Erro\n Você não tem conexão à internet.\n Verifique sua configuração de rede e tente novamente. ");
+                            //Método executado se escolher ok
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                                public void onClick(DialogInterface dialog, int whichButton){
+
+                                }
+                            });
+                            alerta.show();
+                        }
                         break;
                     case 2:
                         Intent bol = new Intent(getApplicationContext(), Boletim.class);
                         startActivity(bol);
                         break;
                     case 3:
-                        Intent even = new Intent(getApplicationContext(), Eventos.class);
-                        startActivity(even);
+                        /**
+                         * Check se tem internet
+                         */
+                        ChecaInternet on2 = new ChecaInternet();
+                        Boolean online2 = on2.isInternetAvailable(MainActivity.this);
+                        if(online2){
+                            Intent even = new Intent(getApplicationContext(), Eventos.class);
+                            startActivity(even);
+                        }else{
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
+                            alerta.setTitle("Sem Conexão com a internet");
+                            alerta.setMessage("Erro\n Você não tem conexão à internet.\n Verifique sua configuração de rede e tente novamente. ");
+                            //Método executado se escolher ok
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                                public void onClick(DialogInterface dialog, int whichButton){
+
+                                }
+                            });
+                            alerta.show();
+                        }
                         break;
                     case 4:
                         Intent i = new Intent(getApplicationContext(), Pendencias.class);

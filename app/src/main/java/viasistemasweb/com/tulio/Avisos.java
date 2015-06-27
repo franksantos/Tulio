@@ -81,15 +81,15 @@ public class Avisos extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //pDialog = ProgressDialog.show(context, context.getString(R.string.app_name),context.getString(R.string.aguarde));
-            pDialog = new ProgressDialog(Avisos.this);//ConfirmaCadAtividade.this
-            pDialog.setTitle("Por favor Aguarde...");
-            pDialog.setMessage("Carregando Dados...");
-            pDialog.setMax(5000);
-            pDialog.setIcon(R.drawable.icone_avisos);
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+                //pDialog = ProgressDialog.show(context, context.getString(R.string.app_name),context.getString(R.string.aguarde));
+                pDialog = new ProgressDialog(Avisos.this);//ConfirmaCadAtividade.this
+                pDialog.setTitle("Por favor Aguarde...");
+                pDialog.setMessage("Carregando Dados...");
+                pDialog.setMax(5000);
+                pDialog.setIcon(R.drawable.icone_avisos);
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
         }
 
         /**
@@ -98,9 +98,7 @@ public class Avisos extends ActionBarActivity {
         //protected String doInBackground(String... args) {
         @Override
         protected ArrayList<HashMap<String, String>> doInBackground(String... args) {
-
-
-                // Building Parameters
+        // Building Parameters
                 c = Calendar.getInstance();
                 int Cano = c.get(Calendar.YEAR);//ano
                 int Cmes = c.get(Calendar.MONTH)+1;//mes

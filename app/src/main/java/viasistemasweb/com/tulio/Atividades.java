@@ -82,15 +82,15 @@ public class Atividades extends ActionBarActivity {
             //ItemAtividade obj1 = new ItemAtividade(R.drawable.icone_de_geografia, "");
 
         }else{
-            Toast.makeText(this, "ERRO. \nNão foi possível receber a notificação", Toast.LENGTH_SHORT).show();
-            /*Intent prox = new Intent(getApplicationContext(), AtividadeBD.class);
-            startActivity(prox);*/
-            ArrayList<ItemAtividade> listaDeAtividades = new ArrayList<ItemAtividade>();
+            //Toast.makeText(this, "ERRO. \nNão foi possível receber a notificação", Toast.LENGTH_SHORT).show();
+            Intent prox = new Intent(Atividades.this, AtividadeBD.class);
+            startActivity(prox);
+            /*ArrayList<ItemAtividade> listaDeAtividades = new ArrayList<ItemAtividade>();
             ItemAtividade obj = new ItemAtividade(R.drawable.icone_de_portugues, "Sem Atividade", "Nenhuma Atividade para este aluno", "28-04-2015");
             listaDeAtividades.add(obj);
             ListaAtividadesAdapter adapter = new ListaAtividadesAdapter(this, listaDeAtividades);
             ListView listView = (ListView)findViewById(R.id.listaAtividades);
-            listView.setAdapter(adapter);
+            listView.setAdapter(adapter);*/
 
         }
 

@@ -5,9 +5,11 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
@@ -31,9 +33,11 @@ import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,14 +48,21 @@ import java.util.ListIterator;
 public class AtividadeBD extends ActionBarActivity {
 
     JSONParser jsonParser = new JSONParser();
+    private JSONParserFromUrl parserFromUrl = new JSONParserFromUrl();
     // JSON Node names
     private static final String TAG_SUCCESS     = "success";//se 1 = OK, se 0 = Erro
     private static final String TAG_RETORNO     = "retorno";//mensagem string retornada
-    private static final String TAG_ATIV_DESC   = "ativ_desc";//descrição da atividade
-    private static final String TAG_DT_ENTREGA  = "ativ_dt_entrega";
+    private static final String TAG_NOME_TURMA  = "nome_tur";
+    private static final String TAG_ATIV_DESC   = "desc";//descrição da atividade
+    private static final String TAG_DIS_COD     = "dis_cod";
+    private static final String TAG_DT_ENTREGA  = "dt_entrega";
     private static final String TAG_DIS_NOME    = "dis_nome";
+    private static final String TAG_COD_TURMA   = "cod_tur";
 
-    private static final int[] refLayoutId = {R.id.txtAtivTituloBD, R.id.txtAtivDescBD, R.id.imageAtivBD};
+    //private static final int[] refLayoutId = {R.id.txtAtivTituloBD, R.id.txtAtivDescBD, R.id.txtAtivDataBD, R.id.imageAtivBD};
+    private static final int[] refLayoutId = {R.id.txtAtivTituloBD, R.id.txtAtivDescBD, R.id.txtAtivDataBD, R.id.imageAtivBD};
+
+    ProgressDialog pDialog;
 
 
     // url to enviar os dados
@@ -63,9 +74,9 @@ public class AtividadeBD extends ActionBarActivity {
     String[] disciplina ;
     String[] atividade;
     String[] dataEntrega;
-    Integer[] imagemAtividade = {
-            R.drawable.icone_de_portugues,
+    int[] imagemAtividade = new int[]{
             R.drawable.icone_de_matematica,
+            R.drawable.icone_de_portugues,
             R.drawable.icone_de_artes,
             R.drawable.icone_de_ciencias,
             R.drawable.icone_de_geografia,
@@ -90,7 +101,7 @@ public class AtividadeBD extends ActionBarActivity {
          * 2 - exibe em um listview
          */
         /** -- Criando a Thread --- */
-        mostraProgresso();
+        new GerarListaDeAtividades().execute();
 
         /**
          * Populando o ListView com imagens
@@ -107,59 +118,153 @@ public class AtividadeBD extends ActionBarActivity {
         });*/
     }
 
-    public ArrayList<HashMap<String, String>> mostraProgresso(){
-        /** ----------- buscando a lista de atividades no banco de dados --------- */
-        new Thread(){
-            public void run(){
-                String idDaTurma = "2";
-                //faz o processamento em background
-                List<NameValuePair> parametros = new ArrayList<NameValuePair>();
-                parametros.add(new BasicNameValuePair("idDaTurma",idDaTurma));
-                final JSONObject json = jsonParser.makeHttpRequest(url_pegar_json, "GET", parametros);
-                Log.d("Resposta do JSON", json.toString());
+    @Override public void onPause(){
+        super.onPause();
+        if(pDialog != null) {
+            pDialog.dismiss();
+        }
+    }
 
-                //atualiza a interface gráfica
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(AtividadeBD.this);
-                            alerta.setTitle("Carregando Atividades");
-                            alerta.setMessage("As atividades estão sendo preparadas para serem exibidas");
-                            int success = json.getInt(TAG_SUCCESS);
-                            if(success==1){
-                                // Obtem o retorno com a listagem das atividades
-                                JSONArray retornoListaAtiv = json.getJSONArray(TAG_RETORNO);
-                                /* Fa?o um loop para retornar um Array com todas as atividades encontrados*/
-                                for(int i=0; i<retornoListaAtiv.length(); i++){
-                                    JSONObject listaRetornada = retornoListaAtiv.getJSONObject(i);
-                                    //agora armazeno cada item da lista de atividades em uma vari?vel
-                                    String ativDesc      = listaRetornada.getString(TAG_ATIV_DESC);
-                                    String ativDtEntrega = listaRetornada.getString(TAG_DT_ENTREGA);
-                                    String nomeDisciplina= listaRetornada.getString(TAG_DIS_NOME);
-                                    //Crio um HashMap para mapear os dados vindos da internet
-                                    HashMap<String, String> mapeamentoDeAtivid = new HashMap<String, String>();
-                                    //Adiciono os n?s do HashMap no tipo Chave => valor
-                                    mapeamentoDeAtivid.put("desc", ativDesc);
-                                    mapeamentoDeAtivid.put("dtEntrega", ativDtEntrega);
-                                    mapeamentoDeAtivid.put("disciplina", nomeDisciplina);
-                                    //Adiciono o HashMap ao ArrayList
-                                    atividadesList.add(mapeamentoDeAtivid);
+    /**
+     * CLASSE ASYNC TASK PROCESSA EM BACKGROUND A INSER??O DA ATIVIDADE
+     *
+     * Backgrounda async taks
+     */
+    class GerarListaDeAtividades extends AsyncTask<String, String, ArrayList<HashMap<String, String>>> {
 
-                                }
-                                barraDeProgresso.dismiss();
-                            }
-                        }
-                        catch(Exception e){
-                            e.printStackTrace();
-                        }
+        // Hashmap for ListView
+        ArrayList<HashMap<String, String>> atividadesList = new ArrayList<HashMap<String, String>>();
 
+
+        /**
+         * Antes de iniciar backgroun crio um thread
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //pDialog = ProgressDialog.show(context, context.getString(R.string.app_name),context.getString(R.string.aguarde));
+            pDialog = new ProgressDialog(AtividadeBD.this);//ConfirmaCadAtividade.this
+            pDialog.setTitle("Por favor Aguarde...");
+            pDialog.setMessage("Carregando Dados...");
+            pDialog.setMax(5000);
+            pDialog.setIcon(R.drawable.icone_avisos);
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        /**
+         * Creating product
+         */
+        //protected String doInBackground(String... args) {
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(String... args) {
+            // Building Parameters
+            //convertendo int para String
+            String id  = "2";
+
+            List<NameValuePair> parametros = new ArrayList<NameValuePair>();
+            parametros.add(new BasicNameValuePair("idDaTurma", id ));
+            // getting JSON Object
+            // Note that create product url accepts POST method
+            JSONObject json = jsonParser.makeHttpRequest(url_pegar_json, "GET", parametros);
+            //JSONObject json = parserFromUrl.getJSONFromUrl(url_pegar_json,parametros);
+            // check log cat fro response
+//            Log.i("Resposta do JSON", json.toString());
+
+            try {
+                int success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    // fez a busca no banco de dados e retornou a lista de avisos com sucesso
+                    // Obtem o retorno com a listagem de avisos
+                    JSONArray listagemDeAtividades = json.getJSONArray(TAG_RETORNO);
+                    /* Fa?o um loop para retornar um Array com todos os avisos encontrados*/
+
+                    for(int i=0; i<listagemDeAtividades.length(); i++){
+                        JSONObject listaRetornada = listagemDeAtividades.getJSONObject(i);
+                        //agora armazeno cada item da lista de atividade em uma vari?vel
+                        String turma     = listaRetornada.getString(TAG_NOME_TURMA);
+                        String desc_ativ = listaRetornada.getString(TAG_ATIV_DESC);
+                        String disCod    = listaRetornada.getString(TAG_DIS_COD);
+                        String dataEntrega = listaRetornada.getString(TAG_DT_ENTREGA);
+                        String disNome   = listaRetornada.getString(TAG_DIS_NOME);
+
+                        //Crio um HashMap para mapear os dados vindos da internet
+                        HashMap<String, String> mapDeAtividades = new HashMap<String, String>();
+                        //Adiciono os n?s do HashMap no tipo Chave => valor
+                        mapDeAtividades.put("dis_nome", disNome);
+                        mapDeAtividades.put("desc", desc_ativ);
+                        mapDeAtividades.put("dt_entrega", dataEntrega);
+                        mapDeAtividades.put("dis_cod", Integer.toString(imagemAtividade[i]));
+                        //Adiciono o HashMap ao ArrayList
+                        atividadesList.add(mapDeAtividades);
                     }
-                });
+                    //retorno o arraylist de avisos
+                    return atividadesList;
+                }else if(success == 0) {
+                    // falha ao retornar a lisatem de avisos
+                    HashMap<String,String> erroMapeamento = new HashMap<String, String>();
+                    erroMapeamento.put("nomeDisciplina", "ERRO");
+                    erroMapeamento.put("descAtividade", "Nenhuma atividade econtrada");
+                    erroMapeamento.put("dataEntrega", "00/00/0000");
+                    atividadesList.add(erroMapeamento);
+                    return atividadesList;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }.start();
+            return null;
 
-        return atividadesList;
+
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * *
+         */
+        protected void onPostExecute(ArrayList<HashMap<String, String>> param) {
+            //fazendo o resultado acontecer
+            final ArrayList<HashMap<String, String>> obj = param;
+
+            // dismiss the dialog once done
+            pDialog.dismiss();
+            //teste
+            //String codigoDisciplina = (String) obj.get(0).get("dis_cod");
+            String codigoDisciplina = (String) obj.get(0).get("dis_cod");
+            Log.i("codigo", codigoDisciplina);
+            //new SimpleAdapter(contexto, lista, layout, arrayChavesHashMap, arrayReferenciaLayout)
+            //chaves usadas no hashmap
+            final String[] from = new String[]{TAG_DIS_NOME, TAG_ATIV_DESC, TAG_DT_ENTREGA, TAG_DIS_COD};
+            //ID´s das views do item_atividade_bd layout do item
+
+
+            //atualiza a UI em uma Thread separada
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ListAdapter adapter = new SimpleAdapter(AtividadeBD.this, atividadesList, R.layout.item_atividade_bd, from , refLayoutId);
+                    ListView listviewDeAtividades = (ListView) findViewById(R.id.listaAtividadesBD);
+                    listviewDeAtividades.setAdapter(adapter);
+                    listviewDeAtividades.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            String codigoDisciplina = (String) obj.get(0).get("dis_cod");
+                            Log.i("codigo", codigoDisciplina);
+                            Toast.makeText(getApplicationContext(), codigoDisciplina, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                }
+            });
+
+        }
+
+
     }
 
 

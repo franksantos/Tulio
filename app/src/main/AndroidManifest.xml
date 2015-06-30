@@ -113,7 +113,9 @@
         <!-- ###### FIM PushBots ####### -->
         <activity
             android:name=".AtividadeBD"
-            android:label="@string/title_activity_atividade_bd" >
+            android:label="@string/title_activity_atividade_bd"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/CustomActionBarTheme">
         </activity>
         <activity
             android:name=".AvisosDescricao"

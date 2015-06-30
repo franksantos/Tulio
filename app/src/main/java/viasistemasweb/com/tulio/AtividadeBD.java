@@ -118,6 +118,17 @@ public class AtividadeBD extends ActionBarActivity {
         });*/
     }
 
+    public void notificaProfessor(View view){
+        view.animate().setDuration(2000).alpha((float)0.3).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                //list.remove(item);
+                //adapter.notifyDataSetChanged();
+                //chama
+            }
+        });
+    }
+
     @Override public void onPause(){
         super.onPause();
         if(pDialog != null) {
@@ -258,10 +269,15 @@ public class AtividadeBD extends ActionBarActivity {
 
                         }
                     });
+                    listviewDeAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Toast.makeText(getBaseContext(),"Clicado"+position,Toast.LENGTH_SHORT ).show();
+                        }
+                    });
 
                 }
             });
-
         }
 
 

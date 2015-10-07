@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -57,32 +58,9 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /** PushBots */
-        Pushbots.sharedInstance().init(this);
-        //passando os dados do pushbots
-        Pushbots.sharedInstance().regID();
-        //Pushbots.sharedInstance().setAlias("Frank");
-        //Pushbots.sharedInstance().tag("1� Ano");
-        //Boolean teste = Pushbots.sharedInstance().getNotifyStatus();
+
 
         DataBaseHandler db = new DataBaseHandler(getApplicationContext());
-
-        // Session class instance
-        //session = new SessionManager(getApplicationContext());
-        /**
-         * Call this function whenever you want to check user login
-         * This will redirect user to LoginActivity is he is not
-         * logged in
-         * */
-        //session.checkLogin();
-
-        // get user data from session
-        //HashMap<String, String> userLog = session.getUserDetails();
-
-        // name
-        //String cpfLogadoVindoDoSharedPreferences = userLog.get(SessionManager.KEY_NAME);
-
-        //Log.d("cpf logado = ", cpfLogadoVindoDoSharedPreferences);
 
 
         /** verifico se o usuário está logado */
@@ -97,18 +75,17 @@ public class MainActivity extends ActionBarActivity {
             userHash = db.getUserDetails();
             //String id = userHash.get()
             String cpf = userHash.get("cpf").toString();
+            /** PushBots */
+            Pushbots.sharedInstance().init(this);
+            //passando os dados do pushbots
+            Pushbots.sharedInstance().regID();
+            Pushbots.sharedInstance().setAlias(cpf);
+            Pushbots.sharedInstance().tag(cpf);
+            //Boolean teste = Pushbots.sharedInstance().getNotifyStatus();
+            Pushbots.sharedInstance().getNotifyStatus();
+            //Pushbots.sharedInstance().setAlias(cpf);
+            //Pushbots.sharedInstance().unRegister();
 
-            //Toast.makeText(MainActivity.this, "cpf = "+cpf,Toast.LENGTH_SHORT).show();
-
-            /** verifico se o usuário já está salvo no banco de dados SQLite
-            if(userHash.get("cpf")!=null || userHash.get("cpf")!= ""){
-            //achou o cpf no banco de dados SQLite
-            //Portanto não precisa ir para a tela de login, o usuário já possui cadastro
-                login = false;
-            }else{
-                //usuário precisa logar
-                login = true;
-            }*/
         }else{
             Toast.makeText(MainActivity.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
             Intent l = new Intent(MainActivity.this, Login.class);
@@ -117,29 +94,6 @@ public class MainActivity extends ActionBarActivity {
             l.putExtras(b);
             startActivity(l);
         }
-
-
-        //recebe a variável login da tela de login
-        //Bundle extras = getIntent().getExtras();
-        //if(extras != null){
-            //veio do login com a variável login=false
-            //login=false;
-            /*SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE);
-            String cpf = sharedPreferences.getString("cpf", null);*/
-
-        //}else{
-            //login = true;
-        //}
-        //chama a tela de login
-        //if(login==true){
-            //Intent l = new Intent(MainActivity.this, Login.class);
-            //Bundle b = new Bundle();
-            //b.putBoolean("login", true);
-            //l.putExtras(b);
-            //startActivity(l);
-       // }
-
-
         /**
          * Populando o ListView com imagens
          */
@@ -224,6 +178,10 @@ public class MainActivity extends ActionBarActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Deseja Sair?");
         builder.setMessage("Você quer realmente Fechar o Aplicativo?").setCancelable(false).setPositiveButton("SIM", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { MainActivity.this.finish(); } }).setNegativeButton("Não", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { dialog.cancel(); } }); AlertDialog alert = builder.create(); alert.show();
+    }
+
+    public void sair(){
+        finish();
     }
 
     @Override

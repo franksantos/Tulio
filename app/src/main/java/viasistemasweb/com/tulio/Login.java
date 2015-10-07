@@ -1,6 +1,7 @@
 package viasistemasweb.com.tulio;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -32,6 +34,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import viasistemasweb.com.tulio.library.ChecaInternet;
 import viasistemasweb.com.tulio.library.DataBaseHandler;
@@ -43,8 +46,10 @@ public class Login extends ActionBarActivity {
     EditText edCpf1,edCpf2,edCpf3,edCpf4,edCpf5,edCpf6,edCpf7,edCpf8,edCpf9,edCpf10,edCpf11;
     Button btnEntar;
     TextView loginErrorMsg;
+
     boolean login;
     String cpfDoUsuario;
+    private Dialog mDialog;
     /**
      * Called when the activity is first created.
      */
@@ -61,7 +66,8 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         // Session Manager
         session = new SessionManager(getApplicationContext());
-
+        //instancia a mensagem de erro de login
+        loginErrorMsg = (TextView)findViewById(R.id.loginErrorMsg);
         //recebo o parametro da p�gina principal
         Intent i = getIntent();
         login = i.getBooleanExtra("login", false);
@@ -473,6 +479,8 @@ public class Login extends ActionBarActivity {
         session.createLoginSession(cpfDoUsuario);
 
 
+
+
     }
 
     /**
@@ -539,7 +547,6 @@ public class Login extends ActionBarActivity {
                 }
                 else{
                     nDialog.dismiss();
-                    loginErrorMsg = (TextView)findViewById(R.id.loginErrorMsg);
                     loginErrorMsg.setText("Erro Conexão de Internet");
                 }
             }
@@ -640,7 +647,7 @@ public class Login extends ActionBarActivity {
                         }else{
 
                             pDialog.dismiss();
-                            loginErrorMsg.setText("Incorrect username/password");
+                            loginErrorMsg.setText("ERRO. CPF não cadastrado. Verifique se seu CPF foi cadastrado e tente novamente.");
                         }
                     }
                 } catch (JSONException e) {
@@ -651,13 +658,25 @@ public class Login extends ActionBarActivity {
             public void NetAsync(View view){
                 new NetCheck().execute();
             }
-
-
     /** FIM da classe internas */
 
-
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        /** verifico se o usuário está logado */
+        UserFunctions u = new UserFunctions();
+        if(u.isUserLoggedIn(Login.this)){
+            //ta logado
+            Toast.makeText(Login.this, "Usuario logado", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(Login.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
+            Intent l = new Intent(Login.this, MainActivity.class);
+            Bundle b = new Bundle();
+            b.putBoolean("login", false);
+            l.putExtras(b);
+            startActivity(l);
+        }
+    }
 
 
     @Override

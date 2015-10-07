@@ -75,12 +75,12 @@ public class AtividadeBD extends ActionBarActivity {
     String[] atividade;
     String[] dataEntrega;
     int[] imagemAtividade = new int[]{
-            R.drawable.icone_de_matematica,
-            R.drawable.icone_de_portugues,
             R.drawable.icone_de_artes,
             R.drawable.icone_de_ciencias,
             R.drawable.icone_de_geografia,
             R.drawable.icone_de_historia,
+            R.drawable.icone_de_matematica,
+            R.drawable.icone_de_portugues,
             R.drawable.icone_de_religiao,
     };
 
@@ -119,14 +119,8 @@ public class AtividadeBD extends ActionBarActivity {
     }
 
     public void notificaProfessor(View view){
-        view.animate().setDuration(2000).alpha((float)0.3).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                //list.remove(item);
-                //adapter.notifyDataSetChanged();
-                //chama
-            }
-        });
+        view.animate().setDuration(2000).alpha((float)0.3);
+
     }
 
     @Override public void onPause(){
@@ -248,7 +242,8 @@ public class AtividadeBD extends ActionBarActivity {
             final String[] from = new String[]{TAG_DIS_NOME, TAG_ATIV_DESC, TAG_DT_ENTREGA, TAG_DIS_COD};
             //ID´s das views do item_atividade_bd layout do item
 
-
+            String[] f = from;
+            String[]teste = f;
             //atualiza a UI em uma Thread separada
             runOnUiThread(new Runnable() {
                 @Override
@@ -275,6 +270,7 @@ public class AtividadeBD extends ActionBarActivity {
                             Toast.makeText(getBaseContext(),"Clicado"+position,Toast.LENGTH_SHORT ).show();
                         }
                     });
+
 
                 }
             });
@@ -336,6 +332,13 @@ public class AtividadeBD extends ActionBarActivity {
             return rowView;
         }
     }*/
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(AtividadeBD.this,MainActivity.class);
+        startActivity(intent);
+    }
 
     /**
      * Created by Frank on 19/05/2015.

@@ -30,6 +30,7 @@
         android:layout_toRightOf="@+id/tvDataAviso"
         android:layout_toEndOf="@+id/tvDataAviso"
         android:layout_marginLeft="20dp"
-        android:textColor="#000" />
+        android:textColor="#000"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

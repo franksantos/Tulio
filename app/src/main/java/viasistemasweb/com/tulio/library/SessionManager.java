@@ -31,8 +31,8 @@ public class SessionManager {
     // User name (make variable public to access from outside)
     public static final String KEY_NAME = "cpf";
 
-    // Email address (make variable public to access from outside)
-   // public static final String KEY_EMAIL = "email";
+    // Tipo de usuário (make variable public to access from outside)
+    public static final String KEY_TIPOUSUARIO = "tipo_usuario";
 
     // Constructor
     public SessionManager(Context context){
@@ -44,15 +44,15 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String cpf){
+    public void createLoginSession(String cpf, String tipoUsuario){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
-        // Storing name in pref
+        // Armazenando o cpf no SharedPreferences
         editor.putString(KEY_NAME, cpf);
 
-        // Storing email in pref
-        //editor.putString(KEY_EMAIL, email);
+        // Armazenando o tipo de usuário no SharedPreferences
+        editor.putString(KEY_TIPOUSUARIO, tipoUsuario);
 
         // commit changes
         editor.commit();
@@ -87,11 +87,11 @@ public class SessionManager {
      * */
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
-        // user name
+        // cpf
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
-        // user email id
-        //user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        // tipo de usuario
+        user.put(KEY_TIPOUSUARIO, pref.getString(KEY_TIPOUSUARIO, null));
 
         // return user
         return user;

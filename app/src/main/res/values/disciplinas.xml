@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listaDeDisciplinas">
+        <item>Selecione a disciplina</item>
+        <item>Artes</item>
+        <item>Ciências</item>
+        <item>Ética</item>
+        <item>Geografia</item>
+        <item>História</item>
+        <item>Inglês</item>
+        <item>Matemática</item>
+        <item>Português</item>
+        <item>Religião</item>
+    </string-array>
+</resources>

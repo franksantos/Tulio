@@ -2,9 +2,11 @@ package viasistemasweb.com.tulio.library;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -20,7 +22,7 @@ public class UserFunctions {
 
     private JSONParserLogin jsonParser;
 
-    private static String loginURL = "http://www.viasistemasweb.com.br/tulio/resposta_login_json.php";
+    private static String loginURL = "http://www.fegv.com.br/tulio_api/resposta_login_json.php";
     private static String registerURL = "http://10.0.2.2/ah_login_api/";
 
     private static String login_tag = "login";
@@ -44,6 +46,13 @@ public class UserFunctions {
         //params.add(new BasicNameValuePair("tag", login_tag));
         params.add(new BasicNameValuePair("cpf", cpf));
         JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        try {
+            String teste = json.get("cpf").toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String teste2 = "ver se o Json está passando o cpf";
+        Log.d("json", json.toString());
         return json;
     }
 

@@ -12,4 +12,14 @@
     <string name="title_activity_avisos_descricao">Detalhes do Aviso</string>
     <string name="erro_conexao_indisponivel">Conexão indisponível, por favor ative sua rede móvel ou Wi-Fi.</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_painel_professor">Painel do Professor</string>
+    <string name="title_activity_cad_atividade">CadAtividade</string>
+    <string name="title_activity_cad_avisos">CadAvisos</string>
+    <string name="title_activity_cad_boletim">CadBoletim</string>
+    <string name="title_activity_cad_aviso">Cadastro de Aviso</string>
+    <string name="title_activity_cad_evento">Cadastro de Evento</string>
+    <string name="title_activity_cad_pendencia">Cadastro de Pendência</string>
+    <string name="title_activity_confirma_cad_atividade">Cadastro de Atividade Confirmação</string>
+    <string name="title_activity_cad_boletim_notas_aluno">Cadastro de Notas</string>
+    <string name="title_activity_relatorio">Relatório</string>
 </resources>

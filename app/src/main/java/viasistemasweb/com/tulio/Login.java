@@ -40,6 +40,7 @@ import viasistemasweb.com.tulio.library.ChecaInternet;
 import viasistemasweb.com.tulio.library.DataBaseHandler;
 import viasistemasweb.com.tulio.library.SessionManager;
 import viasistemasweb.com.tulio.library.UserFunctions;
+import viasistemasweb.com.tulio.professor.PainelProfessor;
 
 
 public class Login extends ActionBarActivity {
@@ -454,12 +455,12 @@ public class Login extends ActionBarActivity {
      * Método salvaSessaoUsuario
      * para salvar o CPF do usuário e persistir essa informação para as outras activity
      */
-    public void salvaSessaoUsuario(View view){
+    public void salvaSessaoUsuario(String cpfDoUsuario, String tipoUsuario){
         /*SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //pega o cpf do usuário, no caso, a concatenação de todos os números do cpf
         */
-        cpfDoUsuario =  edCpf1.getText().toString()+
+        /*cpfDoUsuario =  edCpf1.getText().toString()+
                         edCpf2.getText().toString()+
                         edCpf3.getText().toString()+
                         edCpf4.getText().toString()+
@@ -469,18 +470,14 @@ public class Login extends ActionBarActivity {
                         edCpf8.getText().toString()+
                         edCpf9.getText().toString()+
                         edCpf10.getText().toString()+
-                        edCpf11.getText().toString();
+                        edCpf11.getText().toString();*/
         /*
         editor.putString("cpf", cpfDoUsuario);
         editor.commit();*/
         // Creating user login session
         // For testing i am stroing name, email as follow
         // Use user real data
-        session.createLoginSession(cpfDoUsuario);
-
-
-
-
+        session.createLoginSession(cpfDoUsuario, tipoUsuario);
     }
 
     /**
@@ -597,7 +594,7 @@ public class Login extends ActionBarActivity {
             protected void onPostExecute(JSONObject json) {
                 try {
                     if (json.getString(KEY_SUCCESS) != null) {
-
+                   //ex: {"success":1,"cpf":"92700934334","fic_id":"5","tipo_usuario":"p","pai_id":"6","filhos_id":"12"}
                         String res = json.getString(KEY_SUCCESS);
                         int resInt = Integer.parseInt(res);
                         String resCpf = json.getString("cpf");
@@ -612,34 +609,60 @@ public class Login extends ActionBarActivity {
                             //salva o cpf no banco de dados interno do device SQLITE
                             String cpfMySQL = json.getString("cpf");//pega o cpf retornado do json
                             /**
-                             * Clear all previous data in SQlite database.
+                             * Limpa tudo antes no banco de dadosall previous data in SQlite database.
                              **/
                             UserFunctions logout = new UserFunctions();
                             logout.logoutUser(getApplicationContext());
                             db.addUser(cpfMySQL);//salva o cpf na tabela login do SQLite
                             pDialog.dismiss();
-
-
-                            //db.addUser(json_user.getString(cpfMySQL));//salva o cpf na tabela login do SQLite
                             /**
                              *If JSON array details are stored in SQlite it launches the User Panel.
                              **/
-                            //Bundle l = new Bundle();
-                            //Intent upanel = new Intent(getApplicationContext(), MainActivity.class);
-                            //upanel.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            //pDialog.dismiss();
-
-                            //startActivity(upanel);
-                            //passa o parametro login false para a MainActivity
-                            login = false;
-                            Log.d("login", String.valueOf(login));
-                            Bundle b = new Bundle();
-                            b.putBoolean("login", login);
-                            Intent t = new Intent(Login.this, MainActivity.class);
-                            t.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            t.putExtras(b);
-
-                            startActivity(t);
+                            /**
+                             * pega o tipo de usuário
+                             * se p = parent (PAI) redireciona para o mainactivity
+                             * se t = teacher (PROFESSOR) redireciona para o professor.paienlProfessor
+                             * se s = student (ESTUDANTE) redireciona para o mainactivity
+                             */
+                            String tipoUsuario = json.getString("tipo_usuario");
+                            Log.e("tipo_usuario", tipoUsuario);
+                            switch (tipoUsuario){
+                                case "p":
+                                    //tipo_usuario = pai
+                                    //leva o usuário a MainActivity
+                                    login = false;
+                                    Log.d("login", String.valueOf(login));
+                                    Bundle b = new Bundle();
+                                    b.putBoolean("login", login);
+                                    Intent t = new Intent(Login.this, MainActivity.class);
+                                    t.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    t.putExtras(b);
+                                    startActivity(t);
+                                    break;
+                                case "t":
+                                    //startActivity(upanel);
+                                    //passa o parametro login false para a MainActivity
+                                    login = false;
+                                    Log.d("login", String.valueOf(login));
+                                    Bundle b1 = new Bundle();
+                                    b1.putBoolean("login", login);
+                                    Intent t1 = new Intent(Login.this, PainelProfessor.class);
+                                    t1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    t1.putExtras(b1);
+                                    startActivity(t1);
+                                    break;
+                            }
+                            /* chama o método que salva o cpf e tipo de usuário no SharedPreferences
+                            para depois pegar esses dados em outras Activitys
+                             */
+                            salvaSessaoUsuario(cpfMySQL, tipoUsuario );
+                            //teste para ver se salvou os dados no SharedPreferences
+                            HashMap<String, String> teste;
+                            teste = session.getUserDetails();
+                            String cpfTeste    = (String) teste.get("cpf").toString();
+                            String tpUserTeste = (String) teste.get("tipo_usuario").toString();
+                            Log.e("sp cpf:", cpfTeste);
+                            Log.e("sp tpUser:", tpUserTeste);
                             /**
                              * Close Login Screen
                              **/

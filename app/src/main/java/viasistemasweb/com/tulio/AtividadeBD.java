@@ -66,7 +66,7 @@ public class AtividadeBD extends ActionBarActivity {
 
 
     // url to enviar os dados
-    private static String url_pegar_json = "http://www.viasistemasweb.com.br/tulio/resposta_atividades_json.php";
+    private static String url_pegar_json = "http://www.fegv.com.br/tulio_api/resposta_atividades_json_v2.php";
 
     ProgressDialog barraDeProgresso;
 
@@ -174,8 +174,10 @@ public class AtividadeBD extends ActionBarActivity {
             // Note that create product url accepts POST method
             JSONObject json = jsonParser.makeHttpRequest(url_pegar_json, "GET", parametros);
             //JSONObject json = parserFromUrl.getJSONFromUrl(url_pegar_json,parametros);
+            String teste = json.toString();
+            int ij = 1;
             // check log cat fro response
-//            Log.i("Resposta do JSON", json.toString());
+            Log.i("Resposta do JSON", json.toString());
 
             try {
                 int success = json.getInt(TAG_SUCCESS);

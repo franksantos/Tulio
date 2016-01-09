@@ -1,15 +1,11 @@
-package viasistemasweb.com.tulio;
+package viasistemasweb.com.tulio.professor;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,17 +22,18 @@ import com.pushbots.push.Pushbots;
 
 import java.util.HashMap;
 
-import viasistemasweb.com.tulio.library.ChecaInternet;
+import viasistemasweb.com.tulio.Login;
+import viasistemasweb.com.tulio.R;
 import viasistemasweb.com.tulio.library.DataBaseHandler;
 import viasistemasweb.com.tulio.library.SessionManager;
 import viasistemasweb.com.tulio.library.UserFunctions;
-import viasistemasweb.com.tulio.professor.PainelProfessor;
 
-
-public class MainActivity extends ActionBarActivity {
+/**
+ * Created by Frank on 09/12/2015.
+ */
+public class PainelProfessor extends ActionBarActivity{
     // Session Manager Class
     SessionManager session;
-    HashMap<String, String> dadosUsuario;
 
     boolean login;
     ListView list;
@@ -59,15 +56,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_painel_professor);
 
         DataBaseHandler db = new DataBaseHandler(getApplicationContext());
 
 
         /** verifico se o usuário está logado */
         UserFunctions u = new UserFunctions();
-        if(u.isUserLoggedIn(MainActivity.this)){
+        if(u.isUserLoggedIn(PainelProfessor.this)){
             //ta logado
             //Toast.makeText(MainActivity.this, "Usuario logado", Toast.LENGTH_SHORT).show();
             /**
@@ -94,101 +90,44 @@ public class MainActivity extends ActionBarActivity {
             }
 
         }else{
-            Toast.makeText(MainActivity.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
-            Intent l = new Intent(MainActivity.this, Login.class);
+            Toast.makeText(PainelProfessor.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
+            Intent l = new Intent(PainelProfessor.this, Login.class);
             Bundle b = new Bundle();
             b.putBoolean("login", true);
             l.putExtras(b);
             startActivity(l);
         }
-
-        /**
-         * Verifico o tipo de usuário pelo SharedPreferences
-         * Após verificar o tipo de usuário redireciono para a tela apropriada
-         * tipo usuário = t, manda para a tela de professor
-         * tipo usuário = p, manda para a tela de pai
-         */
-        SharedPreferences teste = getSharedPreferences("TulioPref", MODE_PRIVATE);
-        String cpf = teste.getString("cpf", "");
-        String tipoUsuario = teste.getString("tipo_usuario", "");
-        Log.e("SP CPF:", cpf);
-        Log.e("SP TIPO_USUARIO:", tipoUsuario);
-        switch (tipoUsuario){
-            case "t":
-                //startActivity(upanel);
-                Intent t1 = new Intent(MainActivity.this, PainelProfessor.class);
-                t1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(t1);
-                finish();
-                break;
-        }
         /**
          * Populando o ListView com imagens
          */
         ListaMenus adapter = new
-                ListaMenus(MainActivity.this, nomeMenu, imagemMenu);
+                ListaMenus(PainelProfessor.this, nomeMenu, imagemMenu);
         list=(ListView)findViewById(R.id.menu);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                //Toast.makeText(MainActivity.this, "Você clicou em " + nomeMenu[+position]+"posição do meu"+position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Você clicou em " + nomeMenu[+position] + "posição do meu" + position, Toast.LENGTH_SHORT).show();
                 switch (position){
                     case 0:
-                        Intent ativ = new Intent(getApplicationContext(), Atividades.class);
+                        Intent ativ = new Intent(getApplicationContext(), CadAtividade.class);
                         startActivity(ativ);
                         break;
                     case 1:
-                        /**
-                         * Check se tem internet
-                         */
-                        ChecaInternet on = new ChecaInternet();
-                        Boolean online = on.isInternetAvailable(MainActivity.this);
-                        if(online){
-                            Intent aviso = new Intent(getApplicationContext(), Avisos.class);
-                            startActivity(aviso);
-                        }else{
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
-                            alerta.setTitle("Sem Conexão com a internet");
-                            alerta.setMessage("Erro\n Você não tem conexão à internet.\n Verifique sua configuração de rede e tente novamente. ");
-                            //Método executado se escolher ok
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                                public void onClick(DialogInterface dialog, int whichButton){
-
-                                }
-                            });
-                            alerta.show();
-                        }
+                        Intent aviso = new Intent(getApplicationContext(), CadAviso.class);
+                        startActivity(aviso);
                         break;
                     case 2:
-                        Intent bol = new Intent(getApplicationContext(), Boletim.class);
+                        Intent bol = new Intent(getApplicationContext(), CadBoletim.class);
                         startActivity(bol);
                         break;
                     case 3:
-                        /**
-                         * Check se tem internet
-                         */
-                        ChecaInternet on2 = new ChecaInternet();
-                        Boolean online2 = on2.isInternetAvailable(MainActivity.this);
-                        if(online2){
-                            Intent even = new Intent(getApplicationContext(), Eventos.class);
-                            startActivity(even);
-                        }else{
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
-                            alerta.setTitle("Sem Conexão com a internet");
-                            alerta.setMessage("Erro\n Você não tem conexão à internet.\n Verifique sua configuração de rede e tente novamente. ");
-                            //Método executado se escolher ok
-                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                                public void onClick(DialogInterface dialog, int whichButton){
-
-                                }
-                            });
-                            alerta.show();
-                        }
+                        Intent even = new Intent(getApplicationContext(), CadEvento.class);
+                        startActivity(even);
                         break;
                     case 4:
-                        Intent i = new Intent(getApplicationContext(), Pendencias.class);
+                        Intent i = new Intent(getApplicationContext(), CadPendencia.class);
                         startActivity(i);
                         break;
                     case 5:
@@ -205,11 +144,7 @@ public class MainActivity extends ActionBarActivity {
     @Override public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Deseja Sair?");
-        builder.setMessage("Você quer realmente Fechar o Aplicativo?").setCancelable(false).setPositiveButton("SIM", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { MainActivity.this.finish(); } }).setNegativeButton("Não", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { dialog.cancel(); } }); AlertDialog alert = builder.create(); alert.show();
-    }
-
-    public void sair(){
-        finish();
+        builder.setMessage("Você quer realmente Fechar o Aplicativo?").setCancelable(false).setPositiveButton("SIM", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { PainelProfessor.this.finish(); } }).setNegativeButton("Não", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { dialog.cancel(); } }); AlertDialog alert = builder.create(); alert.show();
     }
 
     @Override
@@ -234,7 +169,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class ListaMenus extends ArrayAdapter<String>{
+    public class ListaMenus extends ArrayAdapter<String> {
         private final Activity contexto;
         private final String[] nomeMenu;
         private final Integer[] imagemMenu;

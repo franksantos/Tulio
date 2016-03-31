@@ -50,14 +50,14 @@ public class AtividadeBD extends ActionBarActivity {
     JSONParser jsonParser = new JSONParser();
     private JSONParserFromUrl parserFromUrl = new JSONParserFromUrl();
     // JSON Node names
-    private static final String TAG_SUCCESS     = "success";//se 1 = OK, se 0 = Erro
-    private static final String TAG_RETORNO     = "retorno";//mensagem string retornada
-    private static final String TAG_NOME_TURMA  = "nome_tur";
-    private static final String TAG_ATIV_DESC   = "desc";//descrição da atividade
-    private static final String TAG_DIS_COD     = "dis_cod";
-    private static final String TAG_DT_ENTREGA  = "dt_entrega";
-    private static final String TAG_DIS_NOME    = "dis_nome";
-    private static final String TAG_COD_TURMA   = "cod_tur";
+    private static final String TAG_SUCCESS = "success";//se 1 = OK, se 0 = Erro
+    private static final String TAG_RETORNO = "retorno";//mensagem string retornada
+    private static final String TAG_NOME_TURMA = "nome_tur";
+    private static final String TAG_ATIV_DESC = "desc";//descrição da atividade
+    private static final String TAG_DIS_COD = "dis_cod";
+    private static final String TAG_DT_ENTREGA = "dt_entrega";
+    private static final String TAG_DIS_NOME = "dis_nome";
+    private static final String TAG_COD_TURMA = "cod_tur";
 
     //private static final int[] refLayoutId = {R.id.txtAtivTituloBD, R.id.txtAtivDescBD, R.id.txtAtivDataBD, R.id.imageAtivBD};
     private static final int[] refLayoutId = {R.id.txtAtivTituloBD, R.id.txtAtivDescBD, R.id.txtAtivDataBD, R.id.imageAtivBD};
@@ -66,12 +66,13 @@ public class AtividadeBD extends ActionBarActivity {
 
 
     // url to enviar os dados
-    private static String url_pegar_json = "http://www.fegv.com.br/tulio_api/resposta_atividades_json_v2.php";
+    //private static String url_pegar_json = "http://www.viasistemasweb.com.br/tulio/resposta_atividades_json_v2.php";
+    private static String url_pegar_json = "http://www.fegv.com.br/tulio_api/resposta_atividades_json.php";
 
     ProgressDialog barraDeProgresso;
 
     ListView listaAtividades;
-    String[] disciplina ;
+    String[] disciplina;
     String[] atividade;
     String[] dataEntrega;
     int[] imagemAtividade = new int[]{
@@ -113,26 +114,26 @@ public class AtividadeBD extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
             }
         });*/
     }
 
-    public void notificaProfessor(View view){
-        view.animate().setDuration(2000).alpha((float)0.3);
+    public void notificaProfessor(View view) {
+        view.animate().setDuration(2000).alpha((float) 0.3);
 
     }
 
-    @Override public void onPause(){
+    @Override
+    public void onPause() {
         super.onPause();
-        if(pDialog != null) {
+        if (pDialog != null) {
             pDialog.dismiss();
         }
     }
 
     /**
      * CLASSE ASYNC TASK PROCESSA EM BACKGROUND A INSER??O DA ATIVIDADE
-     *
+     * <p/>
      * Backgrounda async taks
      */
     class GerarListaDeAtividades extends AsyncTask<String, String, ArrayList<HashMap<String, String>>> {
@@ -166,61 +167,67 @@ public class AtividadeBD extends ActionBarActivity {
         protected ArrayList<HashMap<String, String>> doInBackground(String... args) {
             // Building Parameters
             //convertendo int para String
-            String id  = "2";
+            String id = "2";
 
             List<NameValuePair> parametros = new ArrayList<NameValuePair>();
-            parametros.add(new BasicNameValuePair("idDaTurma", id ));
+            parametros.add(new BasicNameValuePair("idDaTurma", id));
             // getting JSON Object
             // Note that create product url accepts POST method
             JSONObject json = jsonParser.makeHttpRequest(url_pegar_json, "GET", parametros);
             //JSONObject json = parserFromUrl.getJSONFromUrl(url_pegar_json,parametros);
-            String teste = json.toString();
-            int ij = 1;
+            //JSONObject maisumteste = new JSONObject(json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1));
+            int k = 0;
             // check log cat fro response
-            Log.i("Resposta do JSON", json.toString());
-
-            try {
-                int success = json.getInt(TAG_SUCCESS);
-                if (success == 1) {
-                    // fez a busca no banco de dados e retornou a lista de avisos com sucesso
-                    // Obtem o retorno com a listagem de avisos
-                    JSONArray listagemDeAtividades = json.getJSONArray(TAG_RETORNO);
+//            Log.i("Resposta do JSON", json.toString());
+            if(json != null){
+                try {
+                    int success = json.getInt(TAG_SUCCESS);
+                    if (success == 1) {
+                        // fez a busca no banco de dados e retornou a lista de avisos com sucesso
+                        // Obtem o retorno com a listagem de avisos
+                        JSONArray listagemDeAtividades = json.getJSONArray(TAG_RETORNO);
                     /* Fa?o um loop para retornar um Array com todos os avisos encontrados*/
 
-                    for(int i=0; i<listagemDeAtividades.length(); i++){
-                        JSONObject listaRetornada = listagemDeAtividades.getJSONObject(i);
-                        //agora armazeno cada item da lista de atividade em uma vari?vel
-                        String turma     = listaRetornada.getString(TAG_NOME_TURMA);
-                        String desc_ativ = listaRetornada.getString(TAG_ATIV_DESC);
-                        String disCod    = listaRetornada.getString(TAG_DIS_COD);
-                        String dataEntrega = listaRetornada.getString(TAG_DT_ENTREGA);
-                        String disNome   = listaRetornada.getString(TAG_DIS_NOME);
+                        for (int i = 0; i < listagemDeAtividades.length(); i++) {
+                            JSONObject listaRetornada = listagemDeAtividades.getJSONObject(i);
+                            //agora armazeno cada item da lista de atividade em uma vari?vel
+                            String turma = listaRetornada.getString(TAG_NOME_TURMA);
+                            String desc_ativ = listaRetornada.getString(TAG_ATIV_DESC);
+                            String disCod = listaRetornada.getString(TAG_DIS_COD);
+                            String dataEntrega = listaRetornada.getString(TAG_DT_ENTREGA);
+                            String disNome = listaRetornada.getString(TAG_DIS_NOME);
 
-                        //Crio um HashMap para mapear os dados vindos da internet
-                        HashMap<String, String> mapDeAtividades = new HashMap<String, String>();
-                        //Adiciono os n?s do HashMap no tipo Chave => valor
-                        mapDeAtividades.put("dis_nome", disNome);
-                        mapDeAtividades.put("desc", desc_ativ);
-                        mapDeAtividades.put("dt_entrega", dataEntrega);
-                        mapDeAtividades.put("dis_cod", Integer.toString(imagemAtividade[i]));
-                        //Adiciono o HashMap ao ArrayList
-                        atividadesList.add(mapDeAtividades);
+                            //Crio um HashMap para mapear os dados vindos da internet
+                            HashMap<String, String> mapDeAtividades = new HashMap<String, String>();
+                            //Adiciono os n?s do HashMap no tipo Chave => valor
+                            mapDeAtividades.put("dis_nome", disNome);
+                            mapDeAtividades.put("desc", desc_ativ);
+                            mapDeAtividades.put("dt_entrega", dataEntrega);
+                            mapDeAtividades.put("dis_cod", Integer.toString(imagemAtividade[i]));
+                            //Adiciono o HashMap ao ArrayList
+                            atividadesList.add(mapDeAtividades);
+                        }
+                        //retorno o arraylist de avisos
+                        return atividadesList;
                     }
-                    //retorno o arraylist de avisos
-                    return atividadesList;
-                }else if(success == 0) {
-                    // falha ao retornar a lisatem de avisos
-                    HashMap<String,String> erroMapeamento = new HashMap<String, String>();
-                    erroMapeamento.put("nomeDisciplina", "ERRO");
-                    erroMapeamento.put("descAtividade", "Nenhuma atividade econtrada");
-                    erroMapeamento.put("dataEntrega", "00/00/0000");
-                    atividadesList.add(erroMapeamento);
-                    return atividadesList;
+                    if (success == 0) {
+                        // falha ao retornar a lisatem de avisos
+                        HashMap<String, String> erroMapeamento = new HashMap<String, String>();
+                        erroMapeamento.put("dis_cod", "0");
+                        erroMapeamento.put("nomeDisciplina", "ERRO");
+                        erroMapeamento.put("descAtividade", "Nenhuma atividade econtrada");
+                        erroMapeamento.put("dataEntrega", "00/00/0000");
+                        atividadesList.add(erroMapeamento);
+                        return atividadesList;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }else{
+                Log.i("Resposta do JSON", "veio nulo");
             }
-            return null;
+
+            return atividadesList;
 
 
         }
@@ -245,12 +252,12 @@ public class AtividadeBD extends ActionBarActivity {
             //ID´s das views do item_atividade_bd layout do item
 
             String[] f = from;
-            String[]teste = f;
+            String[] teste = f;
             //atualiza a UI em uma Thread separada
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ListAdapter adapter = new SimpleAdapter(AtividadeBD.this, atividadesList, R.layout.item_atividade_bd, from , refLayoutId);
+                    ListAdapter adapter = new SimpleAdapter(AtividadeBD.this, atividadesList, R.layout.item_atividade_bd, from, refLayoutId);
                     ListView listviewDeAtividades = (ListView) findViewById(R.id.listaAtividadesBD);
                     listviewDeAtividades.setAdapter(adapter);
                     listviewDeAtividades.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -269,7 +276,7 @@ public class AtividadeBD extends ActionBarActivity {
                     listviewDeAtividades.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Toast.makeText(getBaseContext(),"Clicado"+position,Toast.LENGTH_SHORT ).show();
+                            Toast.makeText(getBaseContext(), "Clicado" + position, Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -338,7 +345,7 @@ public class AtividadeBD extends ActionBarActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(AtividadeBD.this,MainActivity.class);
+        Intent intent = new Intent(AtividadeBD.this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -347,6 +354,7 @@ public class AtividadeBD extends ActionBarActivity {
      */
     public static class AndroidUtils {
         protected static final String TAG = "livroandroid";
+
         public static boolean isNetworkAvailable(Context context) {
             ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
             if (connectivity == null) {
@@ -379,6 +387,7 @@ public class AtividadeBD extends ActionBarActivity {
                 Log.e(TAG, e.getMessage(), e);
             }
         }
+
         // Retorna se e Android 3.x "honeycomb" ou superior (API Level 11)
         public static boolean isAndroid_3() {
             int apiLevel = Build.VERSION.SDK_INT;
@@ -387,21 +396,24 @@ public class AtividadeBD extends ActionBarActivity {
             }
             return false;
         }
+
         // Retorna se a tela  large ou xlarge
         public static boolean isTablet(Context context) {
             return (context.getResources().getConfiguration().screenLayout
                     & Configuration.SCREENLAYOUT_SIZE_MASK)
                     >= Configuration.SCREENLAYOUT_SIZE_LARGE;
         }
+
         // Retona se � um tablet com Android 3.x
         public static boolean isAndroid_3_Tablet(Context context) {
             return isAndroid_3() && isTablet(context);
         }
+
         // Fecha o teclado virtual se aberto (view com foque)
         public static boolean closeVirtualKeyboard(Context context, View view) {
             // Fecha o teclado virtual
-            InputMethodManager imm = (InputMethodManager)context.getSystemService(INPUT_METHOD_SERVICE);
-            if(imm != null) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+            if (imm != null) {
                 boolean b = imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 return b;
             }

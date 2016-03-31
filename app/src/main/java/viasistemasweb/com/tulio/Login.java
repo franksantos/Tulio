@@ -11,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -347,8 +348,8 @@ public class Login extends ActionBarActivity {
                     //Toast.makeText(Login.this, "Conectado", Toast.LENGTH_SHORT).show();
                 }else{
                     AlertDialog.Builder alerta = new AlertDialog.Builder(Login.this);
-                    alerta.setTitle("ATEN��O");
-                    alerta.setMessage("\nSeu dispositivo est� Sem conex�o � internet.\n O aplicativo s� funciona conectado � internet. Verifique sua configura��o de rede e tente novamente. ");
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("\nSeu dispositivo está Sem conexão à internet.\n O aplicativo só funciona conectado à internet. Verifique sua configuração de rede e tente novamente. ");
                     //M�todo executado se escolher ok
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                         public void onClick(DialogInterface dialog, int whichButton){
@@ -358,7 +359,7 @@ public class Login extends ActionBarActivity {
                     alerta.setNegativeButton("SAIR", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            finish();
+                            ActivityCompat.finishAffinity(Login.this);
                         }
                     });
                     alerta.show();

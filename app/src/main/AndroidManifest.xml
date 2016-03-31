@@ -130,7 +130,8 @@
         <activity
             android:name=".Login"
             android:label="@string/title_activity_login"
-            android:theme="@style/CustomActionBarTheme2" >
+            android:theme="@style/CustomActionBarTheme2"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".professor.PainelProfessor"

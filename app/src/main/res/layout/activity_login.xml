@@ -7,7 +7,7 @@
     tools:context="viasistemasweb.com.tulio.Login"
     android:orientation="vertical"
     android:layout_gravity="center_vertical"
-    android:layout_marginTop="50dp">
+    android:layout_marginTop="25dp">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
         android:background="#4499CC00"
         android:text="ENTRAR"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:onClick="salvaSessaoUsuario" />
 
 

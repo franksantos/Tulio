@@ -67,7 +67,7 @@ public class Avisos extends ActionBarActivity {
     /**
      * CLASSE ASYNC TASK PROCESSA EM BACKGROUND A INSER??O DA ATIVIDADE
      *
-     * Backgrounda async taks
+     * Backgrouna async taks
      */
     class GerarListaDeAvisos extends AsyncTask<String, String, ArrayList<HashMap<String, String>>> {
 

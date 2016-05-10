@@ -595,7 +595,7 @@ public class Login extends ActionBarActivity {
             protected void onPostExecute(JSONObject json) {
                 try {
                     if (json.getString(KEY_SUCCESS) != null) {
-                   //ex: {"success":1,"cpf":"92700934334","fic_id":"5","tipo_usuario":"p","pai_id":"6","filhos_id":"12"}
+                   //ex: {"success":1,"cpf":"92700934334","fic_id":"5","tipo_usuario":"p","pai_id":"6","filhos_id":"12", "turma_id":"10"}
                         String res = json.getString(KEY_SUCCESS);
                         int resInt = Integer.parseInt(res);
                         String resCpf = json.getString("cpf");

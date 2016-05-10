@@ -57,7 +57,7 @@ public class Atividades extends ActionBarActivity {
     private ProgressDialog pDialog;
     private Calendar c;
     private ListView listaAtividades;
-    private static final String URLGET = "http://www.fegv.com.br/tulio/salva_cpf_dthora_recebeu_notificacao.php";
+    private static final String URLGET = "http://www.fegv.com.br/tulio_api/salva_cpf_dthora_recebeu_notificacao.php";
     private String envia;
     URL u;
     private String hora;

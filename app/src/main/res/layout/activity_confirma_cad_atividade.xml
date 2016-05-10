@@ -7,4 +7,24 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="viasistemasweb.com.tulio.professor.ConfirmaCadAtividade">
 
+    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/status"/>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listaPaisConf"
+        android:layout_below="@+id/btnConfirmaRecebimento"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirma Recebimento"
+        android:id="@+id/btnConfirmaRecebimento"
+        android:layout_below="@+id/status"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

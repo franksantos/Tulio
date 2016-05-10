@@ -35,60 +35,61 @@
         android:orientation="horizontal"
         >
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf1"
             android:inputType="number"
             android:maxLength="1"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:textSize="@dimen/abc_text_size_small_material" />
 
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf2"
             android:inputType="number"
             android:maxLength="1"/>
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf3"
             android:inputType="number"
             android:maxLength="1"/>
 
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf4"
             android:inputType="number"
             android:maxLength="1"/>
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf5"
             android:inputType="number"
             android:maxLength="1"/>
 
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf6"
             android:inputType="number"
             android:maxLength="1"/>
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf7"
             android:inputType="number"
             android:maxLength="1"/>
 
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf8"
             android:inputType="number"
             android:maxLength="1"/>
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf9"
             android:inputType="number"
@@ -101,13 +102,13 @@
             android:textStyle="bold" />
 
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf10"
             android:inputType="number"
             android:maxLength="1"/>
         <EditText
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
             android:id="@+id/edCpf11"
             android:inputType="number"

@@ -25,9 +25,9 @@ public class CadAtividade extends ActionBarActivity {
     EditText txtDataEntrega;
     //variavel para dialog da data ao clicar no edittext da data
     Calendar myCalendar = Calendar.getInstance();
-    Spinner spinnerDisciplina;
+    Spinner spinnerDisciplina, spinnerTurma;
     Button btnCadAtividade;
-    long DisciplinaSelecionada;
+    long DisciplinaSelecionada, TurmaSelecionada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,30 @@ public class CadAtividade extends ActionBarActivity {
             }
         });
 
+        /**
+         * Pegar as turmas que o professor ministra aula
+         */
+        spinnerTurma = (Spinner) findViewById(R.id.spinnerTurma);
+        //pega o valor da posição do spinner
+        /**
+         * posicao 0 = Selecione uma Turma
+         * posicao 1 = 1º Período
+         * posicao 2 = 2º Período
+         * .
+         */
+        spinnerTurma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TurmaSelecionada = parent.getItemIdAtPosition(position);
+                Log.i("Id da Turma:", (String) parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         btnCadAtividade = (Button) findViewById(R.id.btnCadAtividade);
         btnCadAtividade.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +151,14 @@ public class CadAtividade extends ActionBarActivity {
                             txtDataEntrega.requestFocus(); } });
                     AlertDialog alert = builder.create();
                     alert.show();
+                }else if(TurmaSelecionada == 0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CadAtividade.this);
+                    builder.setTitle("ATENÇÃO");
+                    builder.setMessage("Turma não selecionada. Verifique e tente novamente").setCancelable(false).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            spinnerTurma.requestFocus(); } });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }else{
                     //Nao tem erros pode enviar para a próxima página
                     /** -- pega os dados digitados no Cadastro -- */
@@ -136,6 +168,7 @@ public class CadAtividade extends ActionBarActivity {
                     String descAtiv = txtDescAtiv.getText().toString();
                     String dataAtiv = txtDataEntrega.getText().toString();
                     String disciplina = String.valueOf(DisciplinaSelecionada);
+                    String turma = String.valueOf(TurmaSelecionada);
 
                     /** -- envia os dados para a Activity de Confirmação --*/
                     //Passa os dados para a classe que fará o processamento
@@ -144,6 +177,7 @@ public class CadAtividade extends ActionBarActivity {
                     b.putString("descricao", descAtiv);
                     b.putString("data", dataAtiv);
                     b.putString("disciplina", disciplina);
+                    b.putString("turma", turma);
                     i.putExtras(b);
                     startActivity(i);
                 }

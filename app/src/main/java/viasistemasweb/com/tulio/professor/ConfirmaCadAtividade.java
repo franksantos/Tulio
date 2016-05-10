@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.R;
+import viasistemasweb.com.tulio.R;
 
 import viasistemasweb.com.tulio.JSONParser;
 
@@ -39,7 +39,7 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
     private Context context;
     private String txtDescAtiv;
     private String txtDataEntrega;
-    private String disciplina;
+    private String disciplina, turma;
     private Button btnConfirmaRecebimento;
     private String msgRetorno;
 
@@ -61,7 +61,7 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> confirmaAtividadesList = new ArrayList<HashMap<String, String>>();
 
-    private String DisciplinaSelecionada;
+    private String DisciplinaSelecionada, TurmaSelecionada;
 
     //instancia da JSONParser
     // JSON parser class
@@ -80,9 +80,9 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
 
 
     // url to enviar os dados
-    private static String url_pegar_json = "http://www.viasistemasweb.com.br/tulio/resposta_json.php";
+    private static String url_pegar_json = "http://www.fegv.com.br/tulio_api/resposta_json.php";
     // url lista usuários que leram as notificações JSON
-    private static String url_lista_lidos_json = "http://www.viasistemasweb.com.br/tulio/lista_usuarios_leram_notificacao_json.php";
+    private static String url_lista_lidos_json = "http://www.fegv.com.br/tulio_api/lista_usuarios_leram_notificacao_json.php";
 
 
     @Override
@@ -160,6 +160,8 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
                     txtDescAtiv = i.getStringExtra("descricao");
                     txtDataEntrega = i.getStringExtra("data");
                     DisciplinaSelecionada = i.getStringExtra("disciplina");
+                    TurmaSelecionada = i.getStringExtra("turma");
+
                 }
             }else{
                 Toast.makeText(ConfirmaCadAtividade.this, "Dados não passados", Toast.LENGTH_SHORT).show();
@@ -170,8 +172,11 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
             parametros.add(new BasicNameValuePair("txtDescAtiv", txtDescAtiv));
             parametros.add(new BasicNameValuePair("txtDataEntrega", txtDataEntrega));
             parametros.add(new BasicNameValuePair("DisciplinaSelecionada", DisciplinaSelecionada));
+            parametros.add(new BasicNameValuePair("TurmaSelecionada", TurmaSelecionada));
             // getting JSON Object
-            // Note that create product url accepts POST method
+            /** envia ao servidor que vai processar o envio por CURL para todos os dispositivos
+             * usando a API do Pushbots
+             */
             JSONObject json = jsonParser.makeHttpRequest(url_pegar_json,
                     "GET", parametros);
             // check log cat fro response

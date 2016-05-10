@@ -77,6 +77,7 @@ public class MainActivity extends ActionBarActivity {
             userHash = db.getUserDetails();
             //String id = userHash.get()
             String cpf = userHash.get("cpf").toString();
+
             /** PushBots */
             Pushbots.sharedInstance().init(this);
 
@@ -85,7 +86,7 @@ public class MainActivity extends ActionBarActivity {
             }else{
                 //passando os dados do pushbots
                 Pushbots.sharedInstance().regID();
-                Pushbots.sharedInstance().setAlias(cpf);
+                Pushbots.sharedInstance().setAlias(cpf);//setar a turma do usuário
                 Pushbots.sharedInstance().tag(cpf);
                 //Boolean teste = Pushbots.sharedInstance().getNotifyStatus();
                 Pushbots.sharedInstance().getNotifyStatus();

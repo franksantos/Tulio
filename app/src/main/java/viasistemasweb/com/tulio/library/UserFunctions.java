@@ -53,6 +53,7 @@ public class UserFunctions {
         }
         String teste2 = "ver se o Json está passando o cpf";
         Log.d("json", json.toString());
+        int teste=1;
         return json;
     }
 

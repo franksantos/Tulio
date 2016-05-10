@@ -1,4 +1,4 @@
-package viasistemasweb.com.tulioprofessor;
+package viasistemasweb.com.tulio.professor;
 
 import android.content.ClipData;
 
@@ -44,5 +44,9 @@ public class ItemConfirmacaoAtividade {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public int getStatus() {
+        return 0;
     }
 }

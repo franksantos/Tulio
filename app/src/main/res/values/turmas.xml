@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listaDeTurmas">
+        <item>1º Período</item>
+        <item>2º Período</item>
+        <item>3º Período</item>
+        <item>1º Ano</item>
+        <item>2º Ano</item>
+        <item>3º Ano</item>
+        <item>4º Ano</item>
+        <item>5º Ano</item>
+        <item>6º Ano</item>
+        <item>7º Ano</item>
+        <item>8º Ano</item>
+        <item>9º Ano</item>
+    </string-array>
+</resources>

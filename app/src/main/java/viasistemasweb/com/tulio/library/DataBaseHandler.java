@@ -25,7 +25,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     // Login Table Columns names
     private static final String KEY_ID = "id";
-    private static final String KEY_NAME = "cpf";
+    private static final String KEY_CPF = "cpf";
+    private static final String KEY_TIPO_USUARIO = "tipo_usuario";
+    private static final String KEY_TURMA = "turma";
 
 
     public DataBaseHandler(Context context) {
@@ -37,7 +39,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_NAME + " TEXT)";
+                + KEY_CPF + " TEXT,"
+                + KEY_TIPO_USUARIO + " TEXT,"
+                + KEY_TURMA + " INTEGER)";
         db.execSQL(CREATE_LOGIN_TABLE);
     }
 
@@ -54,11 +58,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     /**
      * Storing user details in database
      * */
-    public void addUser(String cpf) {
+    public void addUser(String cpf, String tipoUsuario, Integer turmaId) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, cpf); // cpf
+        values.put(KEY_CPF, cpf); // cpf
+        values.put(KEY_TIPO_USUARIO, tipoUsuario); // tipo do usuário
+        values.put(KEY_TURMA, turmaId); // ID da turma do usuário
+
 
         // Inserting Row
         db.insert(TABLE_LOGIN, null, values);
@@ -78,9 +85,18 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         cursor.moveToFirst();
         if(cursor.getCount() > 0){
             user.put("cpf", cursor.getString(1));
+            user.put("tipo_usuario", cursor.getString(2));
+            user.put("turma", cursor.getString(3));
         }
         cursor.close();
         db.close();
+
+        HashMap<String, String>teste = user;
+
+        String testestr = user.get("cpf");
+        String testestr2 = user.get("tipo_usuario");
+        String testestr3 = user.get("turma");
+
         // return user
         return user;
     }

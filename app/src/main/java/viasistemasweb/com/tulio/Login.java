@@ -59,7 +59,7 @@ public class Login extends ActionBarActivity {
     private static String CPF_NODE = "cpf";
 
     // Session Manager Class
-    SessionManager session;
+    //SessionManager session;
 
 
     @Override
@@ -67,7 +67,7 @@ public class Login extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Session Manager
-        session = new SessionManager(getApplicationContext());
+        //session = new SessionManager(getApplicationContext());
         //instancia a mensagem de erro de login
         loginErrorMsg = (TextView)findViewById(R.id.loginErrorMsg);
         //recebo o parametro da p�gina principal
@@ -452,34 +452,7 @@ public class Login extends ActionBarActivity {
 
     }
 
-    /**
-     * Método salvaSessaoUsuario
-     * para salvar o CPF do usuário e persistir essa informação para as outras activity
-     */
-    public void salvaSessaoUsuario(String cpfDoUsuario, String tipoUsuario){
-        /*SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //pega o cpf do usuário, no caso, a concatenação de todos os números do cpf
-        */
-        /*cpfDoUsuario =  edCpf1.getText().toString()+
-                        edCpf2.getText().toString()+
-                        edCpf3.getText().toString()+
-                        edCpf4.getText().toString()+
-                        edCpf5.getText().toString()+
-                        edCpf6.getText().toString()+
-                        edCpf7.getText().toString()+
-                        edCpf8.getText().toString()+
-                        edCpf9.getText().toString()+
-                        edCpf10.getText().toString()+
-                        edCpf11.getText().toString();*/
-        /*
-        editor.putString("cpf", cpfDoUsuario);
-        editor.commit();*/
-        // Creating user login session
-        // For testing i am stroing name, email as follow
-        // Use user real data
-        session.createLoginSession(cpfDoUsuario, tipoUsuario);
-    }
+
 
     /**
      *
@@ -567,6 +540,7 @@ public class Login extends ActionBarActivity {
                 pDialog.setMessage("Processando os dados ...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
+                pDialog.setMax(9000);
                 pDialog.show();
             }
 
@@ -607,14 +581,26 @@ public class Login extends ActionBarActivity {
                             pDialog.setMax(1000);
                             //DataBaseHandler db = new DataBaseHandler(getApplicationContext());
                             DataBaseHandler db = new DataBaseHandler(Login.this);
-                            //salva o cpf no banco de dados interno do device SQLITE
-                            String cpfMySQL = json.getString("cpf");//pega o cpf retornado do json
+
                             /**
                              * Limpa tudo antes no banco de dadosall previous data in SQlite database.
                              **/
                             UserFunctions logout = new UserFunctions();
                             logout.logoutUser(getApplicationContext());
-                            db.addUser(cpfMySQL);//salva o cpf na tabela login do SQLite
+                            //salva o cpf no banco de dados interno do device SQLITE
+                            String cpfMySQL = json.getString("cpf");//pega o cpf retornado do json
+                            String tipoUsuario = json.getString("tipo_usuario");
+                            Integer turmaId = json.getInt("turma_id");
+                            Log.d("turmaf2_Ied", turmaId.toString());
+                            db.addUser(cpfMySQL, tipoUsuario, turmaId);//salva o usuario na tabela login do SQLite
+                            /** Seta o Alias (Cpf) do usuário e a Tag (Turma) dele */
+                            /*if(Pushbots.sharedInstance().isInitialized()){*/
+                                //passando os dados do pushbots
+
+                            /*}else{
+                                //passando os dados do pushbots
+                                Toast.makeText(Login.this, "Não foi possível setar o pushbots",Toast.LENGTH_SHORT);
+                            }/*
                             pDialog.dismiss();
                             /**
                              *If JSON array details are stored in SQlite it launches the User Panel.
@@ -625,14 +611,26 @@ public class Login extends ActionBarActivity {
                              * se t = teacher (PROFESSOR) redireciona para o professor.paienlProfessor
                              * se s = student (ESTUDANTE) redireciona para o mainactivity
                              */
-                            String tipoUsuario = json.getString("tipo_usuario");
-                            Log.e("tipo_usuario", tipoUsuario);
                             switch (tipoUsuario){
                                 case "p":
                                     //tipo_usuario = pai
                                     //leva o usuário a MainActivity
                                     login = false;
                                     Log.d("login", String.valueOf(login));
+                                    /*
+                                        grava os dados no SharedPreferences
+                                        chamanbdo o método que faz a gravação
+                                     */
+                                    String cpfUser = json.getString("cpf");
+                                    //Integer turmaId = json.getInt("turma_id");
+                                    Log.e("tipo_usuario", tipoUsuario);
+                                    salvaSessaoUsuario(cpfUser, tipoUsuario, turmaId);
+                                    boolean teste = salvaSessaoUsuario(cpfUser,tipoUsuario,turmaId);
+
+                                    //seta o PushBots
+                                    setTagPushBots(cpfUser, turmaId);
+                                    //passa os dados para a próxima Activity
+
                                     Bundle b = new Bundle();
                                     b.putBoolean("login", login);
                                     Intent t = new Intent(Login.this, MainActivity.class);
@@ -645,6 +643,18 @@ public class Login extends ActionBarActivity {
                                     //passa o parametro login false para a MainActivity
                                     login = false;
                                     Log.d("login", String.valueOf(login));
+                                    /*
+                                        grava os dados no SharedPreferences
+                                        chamanbdo o método que faz a gravação
+                                     */
+                                    String cpfUserProfessor = json.getString("cpf");
+                                    Integer turmaIdProfessor = json.getInt("turma");
+                                    Log.e("tipo_usuario", tipoUsuario);
+                                    salvaSessaoUsuario(cpfUserProfessor, tipoUsuario, turmaIdProfessor);
+
+                                    //seta o PushBots
+                                    setTagPushBots(cpfUserProfessor, turmaId);
+                                    //passa os dados para a tela de professor
                                     Bundle b1 = new Bundle();
                                     b1.putBoolean("login", login);
                                     Intent t1 = new Intent(Login.this, PainelProfessor.class);
@@ -656,14 +666,16 @@ public class Login extends ActionBarActivity {
                             /* chama o método que salva o cpf e tipo de usuário no SharedPreferences
                             para depois pegar esses dados em outras Activitys
                              */
-                            salvaSessaoUsuario(cpfMySQL, tipoUsuario );
+
+                            //String turmaId = json.getString("turmaId");//pega turmaId retornado do json
+                            //salvaSessaoUsuario(cpfMySQL, tipoUsuario, turmaId);
                             //teste para ver se salvou os dados no SharedPreferences
                             HashMap<String, String> teste;
-                            teste = session.getUserDetails();
-                            String cpfTeste    = (String) teste.get("cpf").toString();
-                            String tpUserTeste = (String) teste.get("tipo_usuario").toString();
-                            Log.e("sp cpf:", cpfTeste);
-                            Log.e("sp tpUser:", tpUserTeste);
+                            //teste = session.getUserDetails();
+                            //String cpfTeste    = (String) teste.get("cpf").toString();
+                            //String tpUserTeste = (String) teste.get("tipo_usuario").toString();
+                           // Log.e("sp cpf:", cpfTeste);
+                            //Log.e("sp tpUser:", tpUserTeste);
                             /**
                              * Close Login Screen
                              **/
@@ -684,6 +696,18 @@ public class Login extends ActionBarActivity {
             }
     /** FIM da classe internas */
 
+    public boolean setTagPushBots(String cpf, Integer turmaId){
+        if((cpf!=null && turmaId!=null) || (cpf!="") ) {
+            //pushbots
+            Pushbots.sharedInstance().regID();
+            Pushbots.sharedInstance().setAlias(cpf);//setar o cpf do usuário no pushbots
+            Pushbots.sharedInstance().tag(String.valueOf(turmaId));//setar uma tag com a turma do usuário no pushbots
+            Pushbots.sharedInstance().getNotifyStatus();
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -700,6 +724,19 @@ public class Login extends ActionBarActivity {
             l.putExtras(b);
             startActivity(l);
         }
+    }
+
+    /**
+     * Método salvaSessaoUsuario
+     * para salvar o CPF do usuário e persistir essa informação para as outras activity
+     */
+    public Boolean salvaSessaoUsuario(String cpfDoUsuario, String tipoUsuario, Integer turmaId){
+        SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("cpf", cpfDoUsuario);
+        editor.putString("tipo", tipoUsuario);
+        editor.putInt("turma", turmaId);
+        return editor.commit();
     }
 
 

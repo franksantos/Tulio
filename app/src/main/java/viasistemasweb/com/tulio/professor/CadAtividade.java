@@ -111,6 +111,7 @@ public class CadAtividade extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TurmaSelecionada = parent.getItemIdAtPosition(position);
                 Log.i("Id da Turma:", (String) parent.getItemAtPosition(position));
+
             }
 
             @Override

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 
 /**
  * Created by Frank on 10/06/2015.
@@ -34,6 +35,9 @@ public class SessionManager {
     // Tipo de usuário (make variable public to access from outside)
     public static final String KEY_TIPOUSUARIO = "tipo_usuario";
 
+    // Turma do usuário (make variable public to access from outside)
+    public static final String KEY_TURMAUSUARIO = "turma";
+
     // Constructor
     public SessionManager(Context context){
         this._context = context;
@@ -44,7 +48,8 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String cpf, String tipoUsuario){
+    public void createLoginSession(String cpf, String tipoUsuario, String turmaId){
+
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
@@ -53,6 +58,9 @@ public class SessionManager {
 
         // Armazenando o tipo de usuário no SharedPreferences
         editor.putString(KEY_TIPOUSUARIO, tipoUsuario);
+
+        //Armaenando a turma do usuário
+        editor.putString(KEY_TURMAUSUARIO, turmaId);
 
         // commit changes
         editor.commit();

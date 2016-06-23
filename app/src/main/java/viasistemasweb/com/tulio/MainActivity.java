@@ -33,9 +33,9 @@ import viasistemasweb.com.tulio.library.UserFunctions;
 import viasistemasweb.com.tulio.professor.PainelProfessor;
 
 
-public class MainActivity extends ActionBarActivity {
+public class    MainActivity extends ActionBarActivity {
     // Session Manager Class
-    SessionManager session;
+    String cpf, tipoDeUsuario, turmaId;
     HashMap<String, String> dadosUsuario;
 
     boolean login;
@@ -61,10 +61,10 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        /** PushBots */
+        Pushbots.sharedInstance().init(this);
+        //instancia o banco de dados
         DataBaseHandler db = new DataBaseHandler(getApplicationContext());
-
-
         /** verifico se o usuário está logado */
         UserFunctions u = new UserFunctions();
         if(u.isUserLoggedIn(MainActivity.this)){
@@ -76,25 +76,20 @@ public class MainActivity extends ActionBarActivity {
             HashMap userHash = new HashMap();
             userHash = db.getUserDetails();
             //String id = userHash.get()
-            String cpf = userHash.get("cpf").toString();
+            cpf = userHash.get("cpf").toString();
+            tipoDeUsuario = userHash.get("tipo_usuario").toString();
+            turmaId = userHash.get("turma").toString();
 
-            /** PushBots */
-            Pushbots.sharedInstance().init(this);
+            Log.e("turmaId:", turmaId);
 
-            if(Pushbots.sharedInstance().isInitialized()){
 
-            }else{
-                //passando os dados do pushbots
-                Pushbots.sharedInstance().regID();
-                Pushbots.sharedInstance().setAlias(cpf);//setar a turma do usuário
-                Pushbots.sharedInstance().tag(cpf);
-                //Boolean teste = Pushbots.sharedInstance().getNotifyStatus();
-                Pushbots.sharedInstance().getNotifyStatus();
-                //Pushbots.sharedInstance().setAlias(cpf);
-                //Pushbots.sharedInstance().unRegister();
-            }
+
 
         }else{
+            /* -- Usuário não está logado --*/
+            /** PushBots */
+            //Pushbots.sharedInstance().init(this);
+            //exibe mensagem e envia o usuário para a tela de login
             Toast.makeText(MainActivity.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
             Intent l = new Intent(MainActivity.this, Login.class);
             Bundle b = new Bundle();
@@ -109,11 +104,16 @@ public class MainActivity extends ActionBarActivity {
          * tipo usuário = t, manda para a tela de professor
          * tipo usuário = p, manda para a tela de pai
          */
-        SharedPreferences teste = getSharedPreferences("TulioPref", MODE_PRIVATE);
-        String cpf = teste.getString("cpf", "");
-        String tipoUsuario = teste.getString("tipo_usuario", "");
-        Log.e("SP CPF:", cpf);
-        Log.e("SP TIPO_USUARIO:", tipoUsuario);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String turma = preferences.getString("turma", "");
+        //String turmaId = teste.getString("cpf", "");
+        String tipoUsuario = preferences.getString("tipo", "");
+        Log.e("turmaId:", turma);
+        Log.e("TIPO_USUARIO:", tipoUsuario);
+
+
+
+
         switch (tipoUsuario){
             case "t":
                 //startActivity(upanel);

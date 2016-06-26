@@ -578,7 +578,7 @@ public class Login extends ActionBarActivity {
                             //sucesso encontrou o cpf no bb MySQL
                             pDialog.setMessage("Aguarde, carregando...");
                             pDialog.setTitle("Checando os Dados");
-                            pDialog.setMax(1000);
+                            //pDialog.setMax(1000);
                             //DataBaseHandler db = new DataBaseHandler(getApplicationContext());
                             DataBaseHandler db = new DataBaseHandler(Login.this);
 
@@ -622,7 +622,7 @@ public class Login extends ActionBarActivity {
                                         chamanbdo o método que faz a gravação
                                      */
                                     String cpfUser = json.getString("cpf");
-                                    //Integer turmaId = json.getInt("turma_id");
+
                                     Log.e("tipo_usuario", tipoUsuario);
                                     salvaSessaoUsuario(cpfUser, tipoUsuario, turmaId);
                                     boolean teste = salvaSessaoUsuario(cpfUser,tipoUsuario,turmaId);
@@ -648,9 +648,9 @@ public class Login extends ActionBarActivity {
                                         chamanbdo o método que faz a gravação
                                      */
                                     String cpfUserProfessor = json.getString("cpf");
-                                    Integer turmaIdProfessor = json.getInt("turma");
+
                                     Log.e("tipo_usuario", tipoUsuario);
-                                    salvaSessaoUsuario(cpfUserProfessor, tipoUsuario, turmaIdProfessor);
+                                    salvaSessaoUsuario(cpfUserProfessor, tipoUsuario, turmaId);
 
                                     //seta o PushBots
                                     setTagPushBots(cpfUserProfessor, turmaId);

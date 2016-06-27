@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,10 +26,15 @@ import android.widget.Toast;
 
 import com.pushbots.push.Pushbots;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 
 import viasistemasweb.com.tulio.library.ChecaInternet;
 import viasistemasweb.com.tulio.library.DataBaseHandler;
+import viasistemasweb.com.tulio.library.HttpHelper;
 import viasistemasweb.com.tulio.library.SessionManager;
 import viasistemasweb.com.tulio.library.UserFunctions;
 import viasistemasweb.com.tulio.professor.PainelProfessor;
@@ -61,15 +68,13 @@ public class    MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /** PushBots */
-        Pushbots.sharedInstance().init(this);
+
         //instancia o banco de dados
         DataBaseHandler db = new DataBaseHandler(getApplicationContext());
         /** verifico se o usuário está logado */
         UserFunctions u = new UserFunctions();
         if(u.isUserLoggedIn(MainActivity.this)){
             //ta logado
-            //Toast.makeText(MainActivity.this, "Usuario logado", Toast.LENGTH_SHORT).show();
             /**
              * Hashmap to load data from the Sqlite database
              **/
@@ -79,18 +84,13 @@ public class    MainActivity extends ActionBarActivity {
             cpf = userHash.get("cpf").toString();
             tipoDeUsuario = userHash.get("tipo_usuario").toString();
             turmaId = userHash.get("turma").toString();
-
             Log.e("turmaId:", turmaId);
-
-
-
-
         }else{
             /* -- Usuário não está logado --*/
             /** PushBots */
             //Pushbots.sharedInstance().init(this);
             //exibe mensagem e envia o usuário para a tela de login
-            Toast.makeText(MainActivity.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
             Intent l = new Intent(MainActivity.this, Login.class);
             Bundle b = new Bundle();
             b.putBoolean("login", true);
@@ -189,8 +189,8 @@ public class    MainActivity extends ActionBarActivity {
                         }
                         break;
                     case 4:
-                        Intent i = new Intent(getApplicationContext(), Pendencias.class);
-                        startActivity(i);
+                        /*Intent i = new Intent(getApplicationContext(), Pendencias.class);
+                        startActivity(i);*/
                         break;
                     case 5:
                         finish();
@@ -200,6 +200,37 @@ public class    MainActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    /**
+     * método de teste para ler o JSON passado da URL
+     *
+     */
+    public Message readMessage(JsonReader reader) throws IOException {
+        long success = -1;
+        String cpf = null;
+        String fic_id = null;
+        String tipo_usuario = null;
+
+
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            if (name.equals("success")) {
+                success = reader.nextLong();
+            } else if (name.equals("cpf")) {
+                cpf = reader.nextString();
+            } else if (name.equals("fic_id")) {
+                fic_id = reader.nextString();
+            } else if (name.equals("user")) {
+                tipo_usuario = reader.nextString();
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        return new Message();
     }
 
     //Método ao clicar no botão Back, voltar do android

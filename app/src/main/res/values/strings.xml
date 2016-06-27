@@ -22,4 +22,8 @@
     <string name="title_activity_confirma_cad_atividade">Cadastro de Atividade Confirmação</string>
     <string name="title_activity_cad_boletim_notas_aluno">Cadastro de Notas</string>
     <string name="title_activity_relatorio">Relatório</string>
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -73,7 +73,7 @@ public class CadAtividade extends ActionBarActivity {
         });
         /** ------------------ FIM do código para fazer abrir popup ao clicar no campo data de entrega ----*/
 
-
+        /** ------------------ Mostra um Spinner com somente as turmas que o professor leciona ----------*/
         spinnerDisciplina = (Spinner) findViewById(R.id.spinnerDisciplina);
         //pega o valor da posição do spinner
         /**

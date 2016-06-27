@@ -2,6 +2,7 @@ package viasistemasweb.com.tulio.professor;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import java.util.HashMap;
 
 import viasistemasweb.com.tulio.Login;
 import viasistemasweb.com.tulio.R;
+import viasistemasweb.com.tulio.library.AutenticavelContract;
 import viasistemasweb.com.tulio.library.DataBaseHandler;
 import viasistemasweb.com.tulio.library.SessionManager;
 import viasistemasweb.com.tulio.library.UserFunctions;
@@ -60,6 +62,8 @@ public class PainelProfessor extends ActionBarActivity{
 
         DataBaseHandler db = new DataBaseHandler(getApplicationContext());
 
+       Professor objProfessor = new Professor();
+        objProfessor.isUserLoggedIn(PainelProfessor.this);
 
         /** verifico se o usuário está logado */
         UserFunctions u = new UserFunctions();
@@ -77,16 +81,11 @@ public class PainelProfessor extends ActionBarActivity{
             Pushbots.sharedInstance().init(this);
 
             if(Pushbots.sharedInstance().isInitialized()){
-
-            }else{
-                //passando os dados do pushbots
-                Pushbots.sharedInstance().regID();
-                Pushbots.sharedInstance().setAlias(cpf);
                 Pushbots.sharedInstance().tag(cpf);
-                //Boolean teste = Pushbots.sharedInstance().getNotifyStatus();
                 Pushbots.sharedInstance().getNotifyStatus();
-                //Pushbots.sharedInstance().setAlias(cpf);
-                //Pushbots.sharedInstance().unRegister();
+            }else{
+
+
             }
 
         }else{

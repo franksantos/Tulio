@@ -585,26 +585,17 @@ public class Login extends ActionBarActivity {
                             /**
                              * Limpa tudo antes no banco de dadosall previous data in SQlite database.
                              **/
-                            UserFunctions logout = new UserFunctions();
-                            logout.logoutUser(getApplicationContext());
+                            //UserFunctions logout = new UserFunctions();
+                            //logout.logoutUser(getApplicationContext());
                             //salva o cpf no banco de dados interno do device SQLITE
                             String cpfMySQL = json.getString("cpf");//pega o cpf retornado do json
+                            Log.d("cpf do mysql", cpfMySQL);
                             String tipoUsuario = json.getString("tipo_usuario");
+                            Log.d("tipo Usuario", tipoUsuario);
                             Integer turmaId = json.getInt("turma_id");
-                            Log.d("turmaf2_Ied", turmaId.toString());
+                            Log.d("turma_Id", turmaId.toString());
+                            /** Salva o usuário encontrado no banco de dados SQLITE */
                             db.addUser(cpfMySQL, tipoUsuario, turmaId);//salva o usuario na tabela login do SQLite
-                            /** Seta o Alias (Cpf) do usuário e a Tag (Turma) dele */
-                            /*if(Pushbots.sharedInstance().isInitialized()){*/
-                                //passando os dados do pushbots
-
-                            /*}else{
-                                //passando os dados do pushbots
-                                Toast.makeText(Login.this, "Não foi possível setar o pushbots",Toast.LENGTH_SHORT);
-                            }/*
-                            pDialog.dismiss();
-                            /**
-                             *If JSON array details are stored in SQlite it launches the User Panel.
-                             **/
                             /**
                              * pega o tipo de usuário
                              * se p = parent (PAI) redireciona para o mainactivity
@@ -652,8 +643,15 @@ public class Login extends ActionBarActivity {
                                     Log.e("tipo_usuario", tipoUsuario);
                                     salvaSessaoUsuario(cpfUserProfessor, tipoUsuario, turmaId);
 
-                                    //seta o PushBots
-                                    setTagPushBots(cpfUserProfessor, turmaId);
+                                    if(Pushbots.sharedInstance().isInitialized()){
+                                        //seta o PushBots
+                                        setTagPushBots(cpfUserProfessor, turmaId);
+                                    }else{
+                                        pDialog.setMessage("O usuário não foi salvo. Houve um erro ao salvar o usuário");
+                                        pDialog.setTitle("ERRO AO SALVAR USUÁRIO");
+                                        break;
+                                    }
+
                                     //passa os dados para a tela de professor
                                     Bundle b1 = new Bundle();
                                     b1.putBoolean("login", login);
@@ -708,11 +706,18 @@ public class Login extends ActionBarActivity {
         return false;
     }
 
-    @Override
+    //Método ao clicar no botão Back, voltar do android
+    @Override public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Deseja Sair?");
+        builder.setMessage("Você quer realmente Fechar o Aplicativo?").setCancelable(false).setPositiveButton("SIM", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { Login.this.finish(); } }).setNegativeButton("Não", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { dialog.cancel(); } }); AlertDialog alert = builder.create(); alert.show();
+    }
+
+    /*@Override
     public void onBackPressed() {
         super.onBackPressed();
         /** verifico se o usuário está logado */
-        UserFunctions u = new UserFunctions();
+        /*UserFunctions u = new UserFunctions();
         if(u.isUserLoggedIn(Login.this)){
             //ta logado
             Toast.makeText(Login.this, "Usuario logado", Toast.LENGTH_SHORT).show();
@@ -724,13 +729,13 @@ public class Login extends ActionBarActivity {
             l.putExtras(b);
             startActivity(l);
         }
-    }
+    }*/
 
     /**
      * Método salvaSessaoUsuario
      * para salvar o CPF do usuário e persistir essa informação para as outras activity
      */
-    public Boolean salvaSessaoUsuario(String cpfDoUsuario, String tipoUsuario, Integer turmaId){
+    public boolean salvaSessaoUsuario(String cpfDoUsuario, String tipoUsuario, Integer turmaId){
         SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("cpf", cpfDoUsuario);
@@ -761,4 +766,6 @@ public class Login extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

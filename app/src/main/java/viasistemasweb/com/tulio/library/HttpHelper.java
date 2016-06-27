@@ -2,6 +2,8 @@ package viasistemasweb.com.tulio.library;
 
 import android.util.Log;
 
+import org.apache.http.params.HttpParams;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -13,6 +15,10 @@ import java.net.URL;
 public class HttpHelper {
     private static final String TAG = "Http";
     public static boolean LOG_ON = false;
+
+    public HttpHelper(){
+
+    }
 
     public static String doGet(String url, String charset) throws IOException {
         if (LOG_ON) {

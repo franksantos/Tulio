@@ -117,6 +117,19 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return rowCount;
     }
 
+    public boolean getUserFromCpf(String cpf){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.query(TABLE_LOGIN, new String[]{KEY_ID, KEY_CPF, KEY_TIPO_USUARIO, KEY_TURMA}, "cpf=?", new String[]{cpf}, null, null, null);
+        if (c.getCount() > 0)
+        {
+            c.moveToFirst();
+            String userCpf = c.getString(Integer.parseInt(KEY_CPF));
+            Log.i("cpf do banco", userCpf);
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Re crate database
      * Delete all tables and create them again

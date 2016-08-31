@@ -42,7 +42,7 @@ public class PainelProfessor extends ActionBarActivity{
     String[] nomeMenu = {
             "Atividades",
             "Avisos",
-            "Boletim",
+            /*"Boletim",*/
             "Eventos",
             "Pendências",
             "Sair"
@@ -50,7 +50,7 @@ public class PainelProfessor extends ActionBarActivity{
     Integer[] imagemMenu = {
             R.drawable.icone_atividade,
             R.drawable.icone_avisos,
-            R.drawable.icone_boletim,
+            /*R.drawable.icone_boletim,*/
             R.drawable.icone_eventos,
             R.drawable.icone_ocorrencias,
             R.drawable.icone_sair
@@ -117,19 +117,19 @@ public class PainelProfessor extends ActionBarActivity{
                         Intent aviso = new Intent(getApplicationContext(), CadAviso.class);
                         startActivity(aviso);
                         break;
-                    case 2:
+                    /*case 2:
                         Intent bol = new Intent(getApplicationContext(), CadBoletim.class);
                         startActivity(bol);
-                        break;
-                    case 3:
+                        break;*/
+                    case 2:
                         Intent even = new Intent(getApplicationContext(), CadEvento.class);
                         startActivity(even);
                         break;
-                    case 4:
+                    case 3:
                         Intent i = new Intent(getApplicationContext(), CadPendencia.class);
                         startActivity(i);
                         break;
-                    case 5:
+                    case 4:
                         finish();
 
                         break;

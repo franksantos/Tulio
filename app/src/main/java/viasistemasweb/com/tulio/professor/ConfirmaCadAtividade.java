@@ -140,7 +140,7 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
             pDialog = new ProgressDialog(ConfirmaCadAtividade.this);//ConfirmaCadAtividade.this
             pDialog.setTitle("Por favor Aguarde...");
             pDialog.setMessage("Carregando Dados...");
-            //pDialog.setMax(5000);
+            pDialog.setMax(5000);
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -173,6 +173,10 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
             parametros.add(new BasicNameValuePair("txtDataEntrega", txtDataEntrega));
             parametros.add(new BasicNameValuePair("DisciplinaSelecionada", DisciplinaSelecionada));
             parametros.add(new BasicNameValuePair("TurmaSelecionada", TurmaSelecionada));
+            Log.d("txtDescAtiv", txtDescAtiv);
+            Log.d("txtDataEntrega", txtDataEntrega);
+            Log.d("DisciplinaSelecionada", DisciplinaSelecionada);
+            Log.d("TurmaSelecionada", TurmaSelecionada);
             // getting JSON Object
             /** envia ao servidor que vai processar o envio por CURL para todos os dispositivos
              * usando a API do Pushbots

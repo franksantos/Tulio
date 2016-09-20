@@ -42,7 +42,6 @@ public class PainelProfessor extends ActionBarActivity{
     String[] nomeMenu = {
             "Atividades",
             "Avisos",
-            /*"Boletim",*/
             "Eventos",
             "Pendências",
             "Sair"
@@ -50,7 +49,6 @@ public class PainelProfessor extends ActionBarActivity{
     Integer[] imagemMenu = {
             R.drawable.icone_atividade,
             R.drawable.icone_avisos,
-            /*R.drawable.icone_boletim,*/
             R.drawable.icone_eventos,
             R.drawable.icone_ocorrencias,
             R.drawable.icone_sair
@@ -99,15 +97,14 @@ public class PainelProfessor extends ActionBarActivity{
         /**
          * Populando o ListView com imagens
          */
-        ListaMenus adapter = new
-                ListaMenus(PainelProfessor.this, nomeMenu, imagemMenu);
+        ListaMenus adapter = new ListaMenus(PainelProfessor.this, nomeMenu, imagemMenu);
         list=(ListView)findViewById(R.id.menu);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                //Toast.makeText(MainActivity.this, "Você clicou em " + nomeMenu[+position] + "posição do meu" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PainelProfessor.this, "Você clicou em " + nomeMenu[+position] + "\n posição do menu =" + position, Toast.LENGTH_LONG).show();
                 switch (position){
                     case 0:
                         Intent ativ = new Intent(getApplicationContext(), CadAtividade.class);

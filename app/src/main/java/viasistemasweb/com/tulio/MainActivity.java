@@ -50,7 +50,6 @@ public class    MainActivity extends ActionBarActivity {
     String[] nomeMenu = {
             "Atividades",
             "Avisos",
-            "Boletim",
             "Eventos",
             "Pendências",
             "Sair"
@@ -58,7 +57,6 @@ public class    MainActivity extends ActionBarActivity {
     Integer[] imagemMenu = {
             R.drawable.icone_atividade,
             R.drawable.icone_avisos,
-            R.drawable.icone_boletim,
             R.drawable.icone_eventos,
             R.drawable.icone_ocorrencias,
             R.drawable.icone_sair
@@ -162,11 +160,11 @@ public class    MainActivity extends ActionBarActivity {
                             alerta.show();
                         }
                         break;
+//                    case 2:
+//                        Intent bol = new Intent(getApplicationContext(), Boletim.class);
+//                        startActivity(bol);
+//                        break;
                     case 2:
-                        Intent bol = new Intent(getApplicationContext(), Boletim.class);
-                        startActivity(bol);
-                        break;
-                    case 3:
                         /**
                          * Check se tem internet
                          */
@@ -188,11 +186,29 @@ public class    MainActivity extends ActionBarActivity {
                             alerta.show();
                         }
                         break;
-                    case 4:
-                        /*Intent i = new Intent(getApplicationContext(), Pendencias.class);
-                        startActivity(i);*/
+                    case 3:
+                        /**
+                         * Check se tem internet
+                         */
+                        ChecaInternet on3 = new ChecaInternet();
+                        Boolean online3 = on3.isInternetAvailable(MainActivity.this);
+                        if(online3){
+                            Intent even = new Intent(getApplicationContext(), Pendencias.class);
+                            startActivity(even);
+                        }else{
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(MainActivity.this);
+                            alerta.setTitle("Sem Conexão com a internet");
+                            alerta.setMessage("Erro\n Você não tem conexão à internet.\n Verifique sua configuração de rede e tente novamente. ");
+                            //Método executado se escolher ok
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                                public void onClick(DialogInterface dialog, int whichButton){
+
+                                }
+                            });
+                            alerta.show();
+                        }
                         break;
-                    case 5:
+                    case 4:
                         finish();
 
                         break;

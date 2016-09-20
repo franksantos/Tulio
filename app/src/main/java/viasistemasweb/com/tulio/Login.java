@@ -574,7 +574,7 @@ public class Login extends ActionBarActivity {
                         int resInt = Integer.parseInt(res);
                         String resCpf = json.getString("cpf");
 
-                        if(resInt == 1){
+                        if(resInt > 0){
                             //sucesso encontrou o cpf no bb MySQL
                             pDialog.setMessage("Aguarde, carregando...");
                             pDialog.setTitle("Checando os Dados");
@@ -641,13 +641,21 @@ public class Login extends ActionBarActivity {
                                     String cpfUserProfessor = json.getString("cpf");
 
                                     Log.e("tipo_usuario", tipoUsuario);
-                                    salvaSessaoUsuario(cpfUserProfessor, tipoUsuario, turmaId);
-
-                                    if(Pushbots.sharedInstance().isInitialized()){
-                                        //seta o PushBots
-                                        setTagPushBots(cpfUserProfessor, turmaId);
-                                    }else{
-                                        pDialog.setMessage("O usuário não foi salvo. Houve um erro ao salvar o usuário");
+                                    if( salvaSessaoUsuario(cpfUserProfessor, tipoUsuario, turmaId) ) {
+                                        //se tiver salvo os dados do usuário
+                                        // na sessão com sharedpreferences
+                                        //verifica se o pushbots foi iniciado
+                                        //se sim set a TAG turma no pushbots
+                                        if (Pushbots.sharedInstance().isInitialized()) {
+                                            //seta o PushBots
+                                            setTagPushBots(cpfUserProfessor, turmaId);
+                                        } else {
+                                            pDialog.setMessage("O usuário não foi salvo. Houve um erro ao salvar o usuário");
+                                            pDialog.setTitle("ERRO AO SALVAR USUÁRIO");
+                                            break;
+                                        }
+                                    }else {
+                                        pDialog.setMessage("O usuário não foi localizado. Houve um erro ao salvar o usuário");
                                         pDialog.setTitle("ERRO AO SALVAR USUÁRIO");
                                         break;
                                     }
@@ -664,16 +672,6 @@ public class Login extends ActionBarActivity {
                             /* chama o método que salva o cpf e tipo de usuário no SharedPreferences
                             para depois pegar esses dados em outras Activitys
                              */
-
-                            //String turmaId = json.getString("turmaId");//pega turmaId retornado do json
-                            //salvaSessaoUsuario(cpfMySQL, tipoUsuario, turmaId);
-                            //teste para ver se salvou os dados no SharedPreferences
-                            HashMap<String, String> teste;
-                            //teste = session.getUserDetails();
-                            //String cpfTeste    = (String) teste.get("cpf").toString();
-                            //String tpUserTeste = (String) teste.get("tipo_usuario").toString();
-                           // Log.e("sp cpf:", cpfTeste);
-                            //Log.e("sp tpUser:", tpUserTeste);
                             /**
                              * Close Login Screen
                              **/
@@ -713,30 +711,14 @@ public class Login extends ActionBarActivity {
         builder.setMessage("Você quer realmente Fechar o Aplicativo?").setCancelable(false).setPositiveButton("SIM", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { Login.this.finish(); } }).setNegativeButton("Não", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { dialog.cancel(); } }); AlertDialog alert = builder.create(); alert.show();
     }
 
-    /*@Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        /** verifico se o usuário está logado */
-        /*UserFunctions u = new UserFunctions();
-        if(u.isUserLoggedIn(Login.this)){
-            //ta logado
-            Toast.makeText(Login.this, "Usuario logado", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(Login.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
-            Intent l = new Intent(Login.this, MainActivity.class);
-            Bundle b = new Bundle();
-            b.putBoolean("login", false);
-            l.putExtras(b);
-            startActivity(l);
-        }
-    }*/
+
 
     /**
      * Método salvaSessaoUsuario
      * para salvar o CPF do usuário e persistir essa informação para as outras activity
      */
     public boolean salvaSessaoUsuario(String cpfDoUsuario, String tipoUsuario, Integer turmaId){
-        SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("cpf", cpfDoUsuario);
         editor.putString("tipo", tipoUsuario);

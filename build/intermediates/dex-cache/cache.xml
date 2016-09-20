@@ -2,53 +2,39 @@
 <items version="2" >
 
     <item
-        jar="/home/frank/projetos/tulio/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
-        jumboMode="true"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="/home/frank/projetos/tulio/android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-21.0.3_4393c8d83390cc55c7c3179c2fab57502e135823/classes.dex" />
-    </item>
-    <item
-        jar="/home/frank/projetos/tulio/android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        revision="21.1.2"
-        sha1="52d16060e25e0e11fa063716c4519254ec47a372">
-        <dex dex="/home/frank/projetos/tulio/android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_1299629671c2525628fbc12fe453a81a5cc8c3d6/classes.dex" />
-    </item>
-    <item
-        jar="/home/frank/projetos/tulio/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/jars/classes.jar"
-        jumboMode="true"
-        revision="21.1.2"
-        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="/home/frank/projetos/tulio/android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-21.0.3_b1f239385a6d6abe1af7d568377a627d5c116d44/classes.dex" />
-    </item>
-    <item
-        jar="/home/frank/projetos/tulio/android/app/build/intermediates/exploded-aar/com.pushbots/pushbots-lib/2.0.13/jars/classes.jar"
-        jumboMode="true"
-        revision="21.1.2"
-        sha1="635a77d3f219ad345f4b82dba86e4aabe4f35b94">
-        <dex dex="/home/frank/projetos/tulio/android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.pushbots-pushbots-lib-2.0.13_13cfd2a07c6e42c0600a65eabd78d7fd6a28ab43/classes.dex" />
-    </item>
-    <item
         jar="/home/frank/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
-        jumboMode="true"
+        jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="/home/frank/projetos/tulio/android/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-21.0.3_d87303fbf44a44aea8105be369d14e7fe1ca211d/classes.dex" />
+        <dex dex="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3_d87303fbf44a44aea8105be369d14e7fe1ca211d.jar" />
     </item>
     <item
-        jar="/home/frank/projetos/tulio/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
-        jumboMode="true"
+        jar="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-21.0.3_236b484cda588dc94f24ae492c0a29392dd59a48.jar" />
+    </item>
+    <item
+        jar="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="/home/frank/projetos/tulio/android/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-21.0.3_0647ce865668c2daf3f983a3c915274c7011ef2f/classes.dex" />
+        <dex dex="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3_61e74728938e509d8e763dde6e285e5ea3ff6656.jar" />
     </item>
     <item
-        jar="/home/frank/projetos/tulio/android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
+        jar="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
+        jumboMode="false"
         revision="21.1.2"
-        sha1="d39231bcd6f3edffa205bf942b968819f7e9174e">
-        <dex dex="/home/frank/projetos/tulio/android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_febda975a1df486eb90204441563ccc3a261d38b/classes.dex" />
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-21.0.3_da5c033610453d6e5e1764006e6be48ff0a24c3f.jar" />
+    </item>
+    <item
+        jar="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/exploded-aar/com.pushbots/pushbots-lib/2.0.13/jars/classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="635a77d3f219ad345f4b82dba86e4aabe4f35b94">
+        <dex dex="/home/frank/projetos/tulio/android/Tulio/app/build/intermediates/pre-dexed/debug/com.pushbots-pushbots-lib-2.0.13_108d6b9b7412219764ddd4c23687e90c9c46d068.jar" />
     </item>
 
 </items>

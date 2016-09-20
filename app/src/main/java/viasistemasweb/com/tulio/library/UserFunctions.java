@@ -22,7 +22,8 @@ public class UserFunctions {
 
     private JSONParserLogin jsonParser;
 
-    private static String loginURL = "http://www.fegv.com.br/tulio_api/resposta_login_json.php";
+//    private static String loginURL = "http://www.fegv.com.br/tulio_api/resposta_login_json.php";
+    private static String loginURL = "http://tulioappweb.herokuapp.com/api/v1/login/index";
     private static String registerURL = "http://10.0.2.2/ah_login_api/";
 
     private static String login_tag = "login";

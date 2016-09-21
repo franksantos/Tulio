@@ -182,7 +182,7 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
              * usando a API do Pushbots
              */
             JSONObject json = jsonParser.makeHttpRequest(url_pegar_json,
-                    "GET", parametros);
+                    "POST", parametros);
             // check log cat fro response
             Log.d("Resposta do JSON", json.toString());
             // check for success tag

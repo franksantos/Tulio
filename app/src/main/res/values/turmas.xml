@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="listaDeTurmas">
-        <item>1º Período</item>
-        <item>2º Período</item>
-        <item>3º Período</item>
+        <item>Selecione uma turma</item>
         <item>1º Ano</item>
         <item>2º Ano</item>
         <item>3º Ano</item>

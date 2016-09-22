@@ -74,13 +74,13 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
     private static final String TAG_SUCCESS     = "success";//se 1 = OK, se 0 = Erro
     //private static final String TAG_ERROR     = "Falhou";
     private static final String TAG_MESSAGE     = "message";//mensagem string retornada
-    private static final String TAG_STATUS        = "status";
+    private static final String TAG_STATUS      = "status";
     private static final String TAG_RETORNO     = "retorno";//mensagem string retornada
 
 
 
     // url to enviar os dados
-    private static String url_pegar_json = "http://www.fegv.com.br/tulio_api/resposta_json.php";
+    private static String url_pegar_json = "http://tulioappweb.herokuapp.com/api/v1/atividades/store";
     // url lista usuários que leram as notificações JSON
     private static String url_lista_lidos_json = "http://www.fegv.com.br/tulio_api/lista_usuarios_leram_notificacao_json.php";
 

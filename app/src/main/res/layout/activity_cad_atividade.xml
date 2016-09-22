@@ -36,7 +36,7 @@
 
     <Spinner
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:id="@+id/spinnerTurma"
         android:entries="@array/listaDeTurmas"
         android:background="#f2f2f2"

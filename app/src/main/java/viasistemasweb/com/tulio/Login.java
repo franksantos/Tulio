@@ -562,17 +562,58 @@ public class Login extends ActionBarActivity {
                 cpf = Cpf1.getText().toString()+Cpf2.getText().toString()+Cpf3.getText().toString()+Cpf4.getText().toString()+Cpf5.getText().toString()+Cpf6.getText().toString()+Cpf7.getText().toString()+Cpf8.getText().toString()+Cpf9.getText().toString()+Cpf10.getText().toString()+Cpf11.getText().toString();
                 UserFunctions userFunction = new UserFunctions();
                 JSONObject json = userFunction.loginUser(cpf);
+
+                JSONArray dados = null;
+                try {
+                    String testejson = json.toString();
+                    int a = 0;
+                    dados = json.getJSONArray("alunos");
+                    JSONObject d = dados.getJSONObject(0);
+                    String turma_id=d.getString("turma_id");
+                    int teet =0;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
                 return json;
             }
 
             @Override
             protected void onPostExecute(JSONObject json) {
+                Integer turmaId = 0;
                 try {
+                    String ujson = json.toString();
                     if (json.getString(KEY_SUCCESS) != null) {
-                   //ex: {"success":1,"cpf":"92700934334","fic_id":"5","tipo_usuario":"p","pai_id":"6","filhos_id":"12", "turma_id":"10"}
+                   /* se for Pai o JSON vem no formato abaixo */
+                        /**{
+                            "success": "1",
+                                "cpf": "36985274108",
+                                "fic_id": 4,
+                                "tipo_usuario": "p",
+                                "pai_id": 3,
+                                "alunos": [
+                            {
+                                "id": 2,
+                                    "alu_fic_id": 5,
+                                    "alu_tur_id": 1,
+                                    "created_at": "2016-09-20 23:43:37",
+                                    "updated_at": "2016-09-20 23:43:37",
+                                    "pivot": {
+                                        "pai_id": 3,
+                                        "alu_id": 2
+                                    }
+                            }
+                            ]
+                        }*/
+
+                    /* se for Professor o JSON vem no formato abaixo*/
+                        /**
+                          {"success":"1","cpf":"12345678900","fic_id":19,"tipo_usuario":"t","turma_id":1}
+                         * */
+
                         String res = json.getString(KEY_SUCCESS);
                         int resInt = Integer.parseInt(res);
-                        String resCpf = json.getString("cpf");
 
                         if(resInt > 0){
                             //sucesso encontrou o cpf no bb MySQL
@@ -581,19 +622,37 @@ public class Login extends ActionBarActivity {
                             //pDialog.setMax(1000);
                             //DataBaseHandler db = new DataBaseHandler(getApplicationContext());
                             DataBaseHandler db = new DataBaseHandler(Login.this);
-
                             /**
-                             * Limpa tudo antes no banco de dadosall previous data in SQlite database.
+                             armazena os dados do JSON em variáveis conforme o tipo de usuário
                              **/
-                            //UserFunctions logout = new UserFunctions();
-                            //logout.logoutUser(getApplicationContext());
-                            //salva o cpf no banco de dados interno do device SQLITE
                             String cpfMySQL = json.getString("cpf");//pega o cpf retornado do json
                             Log.d("cpf do mysql", cpfMySQL);
                             String tipoUsuario = json.getString("tipo_usuario");
                             Log.d("tipo Usuario", tipoUsuario);
-                            Integer turmaId = json.getInt("turma_id");
-                            Log.d("turma_Id", turmaId.toString());
+                            if(tipoUsuario == "t"){
+                                /**
+                                  {
+                                  "success":"1",
+                                  "cpf":"12345678900",
+                                  "fic_id":19,
+                                  "tipo_usuario":"t",
+                                  "turma_id":1
+                                  }
+                                  */
+                                //varáveis para o usuario do tipo professor
+                                String turma_id = json.getString("turma_id");
+                                turmaId = Integer.parseInt(turma_id);
+                                Log.d("turma_Id", turmaId.toString());
+                            }
+                            if(tipoUsuario == "p"){
+                                //pegar a turma id do aluno
+                                JSONArray dadosDoAluno = json.getJSONArray("alunos");
+                                JSONObject d = dadosDoAluno.getJSONObject(0);
+                                String turma_id = d.getString("alu_tur_id");
+                                turmaId = Integer.parseInt(turma_id);
+                                Log.d("turma_Id", turmaId.toString());
+                            }
+
                             /** Salva o usuário encontrado no banco de dados SQLITE */
                             db.addUser(cpfMySQL, tipoUsuario, turmaId);//salva o usuario na tabela login do SQLite
                             /**
@@ -639,7 +698,7 @@ public class Login extends ActionBarActivity {
                                         chamanbdo o método que faz a gravação
                                      */
                                     String cpfUserProfessor = json.getString("cpf");
-
+                                    int i2=0;
                                     Log.e("tipo_usuario", tipoUsuario);
                                     if( salvaSessaoUsuario(cpfUserProfessor, tipoUsuario, turmaId) ) {
                                         //se tiver salvo os dados do usuário

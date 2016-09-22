@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -86,7 +87,7 @@ public class CadAtividade extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 DisciplinaSelecionada = parent.getItemIdAtPosition(position);
-                Log.i("Id:", (String) parent.getItemAtPosition(position));
+                Log.i("dis_selecionada", String.valueOf(DisciplinaSelecionada));
             }
 
             @Override
@@ -109,9 +110,9 @@ public class CadAtividade extends ActionBarActivity {
         spinnerTurma.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                TurmaSelecionada = parent.getItemIdAtPosition(position);
-                Log.i("Id da Turma:", (String) parent.getItemAtPosition(position));
-
+                TurmaSelecionada = id;
+                Log.i("Id da turma:", String.valueOf(id));
+                //Toast.makeText(CadAtividade.this, String.valueOf(id), Toast.LENGTH_LONG).show();
             }
 
             @Override

@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,24 +28,31 @@ import viasistemasweb.com.tulio.R;
 public class ConfirmaCadAviso extends ActionBarActivity {
     private String avi_desc, avi_data_hora, avi_tur_id;
     private String desc, data_hora, tur_id;
-    private JSONParser jsonParser;
+    //instancia da JSONParser
+    // JSON parser class
+    JSONParser jsonParser = new JSONParser();
 
-    public static String URL_JSON_AVISOS = "http://tulioappweb.herokuapp.com/api/v1/atividades/store";
+    public static String URL_JSON_AVISOS = "http://tulioappweb.herokuapp.com/api/v1/avisos/store";
     public static String TAG_SUCCESS = "success";
     public static String TAG_MESSAGE = "message";
     public static String TAG_STATUS = "status";
 
     private TextView labelSucessoAvisos;
+    private ProgressBar progressbar;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //teste
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirma_cad_aviso);
 
         labelSucessoAvisos = (TextView)findViewById(R.id.labelAvisoSucesso);
+        progressbar = (ProgressBar)findViewById(R.id.progressBar);
 
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        setProgressBarIndeterminateVisibility(true);
+
+        setSupportProgressBarIndeterminateVisibility(true);
 
         Intent i = getIntent();
         if (i != null) {
@@ -57,7 +66,7 @@ public class ConfirmaCadAviso extends ActionBarActivity {
                 new CarregarStatusAviso().execute(avi_desc, avi_data_hora, avi_tur_id);
             }
         }else{
-//            Toast.makeText(ConfirmaCadAtividade.this, "Dados não passados", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ConfirmaCadAviso.this, "Dados não passados", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -88,6 +97,8 @@ public class ConfirmaCadAviso extends ActionBarActivity {
                     "POST",
                     parametros
             );
+            String jsonRetornado = json.toString();
+            Log.d("json", jsonRetornado);
             return json;
         }
 

@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -157,7 +158,7 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
             if (i != null) {
                 Bundle b = i.getExtras();
                 if (b != null) {
-                    txtDescAtiv = i.getStringExtra("descricao");
+                    txtDescAtiv = removerAcentos(i.getStringExtra("descricao"));
                     txtDataEntrega = i.getStringExtra("data");
                     DisciplinaSelecionada = i.getStringExtra("disciplina");
                     TurmaSelecionada = i.getStringExtra("turma");
@@ -191,10 +192,13 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
                 if (success == 1) {
                     // agendamento foi realizado com sucesso
                     // Obtem a mensagem de agendamento realizado com sucesso (Getting Array of Products)
-                    JSONArray mensagemRetornada = json.getJSONArray(TAG_MESSAGE);
-                    JSONObject mensagem = mensagemRetornada.getJSONObject(0);
-                    //String mensagemRetornada = json.toString();
-                    String[] msgRetorno = { mensagem.getString(TAG_STATUS) };
+//                    JSONArray mensagemRetornada = json.getJSONArray(TAG_MESSAGE);
+//                    String mensagem = json.getString("status");
+                    JSONObject mensagemRetornada = json.getJSONObject(TAG_MESSAGE);
+                    Log.d("mensagem ret = ", mensagemRetornada.toString());
+                    String status = mensagemRetornada.getString(TAG_STATUS);
+                    int teste =0;
+                    String[] msgRetorno = { status };
                     return msgRetorno;
                 }else if(success == 0) {
                     // failed to create product
@@ -389,6 +393,15 @@ public class ConfirmaCadAtividade extends ActionBarActivity {
             });
 
         }
+    }
+
+    /**
+     *
+     * @param str
+     * @return string without acentos
+     */
+    public static String removerAcentos(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
 
 }

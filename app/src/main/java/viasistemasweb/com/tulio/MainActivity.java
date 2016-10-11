@@ -41,9 +41,8 @@ import viasistemasweb.com.tulio.professor.PainelProfessor;
 
 
 public class    MainActivity extends ActionBarActivity {
-    // Session Manager Class
-    String cpf, tipoDeUsuario, turmaId;
-    HashMap<String, String> dadosUsuario;
+    //sessão
+    SessionManager session;
 
     boolean login;
     ListView list;
@@ -66,61 +65,9 @@ public class    MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        session = new SessionManager(MainActivity.this);
+        session.checkLogin();
 
-        //instancia o banco de dados
-        DataBaseHandler db = new DataBaseHandler(getApplicationContext());
-        /** verifico se o usuário está logado */
-        UserFunctions u = new UserFunctions();
-        if(u.isUserLoggedIn(MainActivity.this)){
-            //ta logado
-            /**
-             * Hashmap to load data from the Sqlite database
-             **/
-            HashMap userHash = new HashMap();
-            userHash = db.getUserDetails();
-            //String id = userHash.get()
-            cpf = userHash.get("cpf").toString();
-            tipoDeUsuario = userHash.get("tipo_usuario").toString();
-            turmaId = userHash.get("turma").toString();
-            Log.e("turmaId:", turmaId);
-        }else{
-            /* -- Usuário não está logado --*/
-            /** PushBots */
-            //Pushbots.sharedInstance().init(this);
-            //exibe mensagem e envia o usuário para a tela de login
-            //Toast.makeText(MainActivity.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
-            Intent l = new Intent(MainActivity.this, Login.class);
-            Bundle b = new Bundle();
-            b.putBoolean("login", true);
-            l.putExtras(b);
-            startActivity(l);
-        }
-
-        /**
-         * Verifico o tipo de usuário pelo SharedPreferences
-         * Após verificar o tipo de usuário redireciono para a tela apropriada
-         * tipo usuário = t, manda para a tela de professor
-         * tipo usuário = p, manda para a tela de pai
-         */
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String turma = preferences.getString("turma", "");
-        //String turmaId = teste.getString("cpf", "");
-        String tipoUsuario = preferences.getString("tipo", "");
-        Log.e("turmaId:", turma);
-        Log.e("TIPO_USUARIO:", tipoUsuario);
-
-
-
-
-        switch (tipoUsuario){
-            case "t":
-                //startActivity(upanel);
-                Intent t1 = new Intent(MainActivity.this, PainelProfessor.class);
-                t1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(t1);
-                finish();
-                break;
-        }
         /**
          * Populando o ListView com imagens
          */
@@ -253,7 +200,19 @@ public class    MainActivity extends ActionBarActivity {
     @Override public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Deseja Sair?");
-        builder.setMessage("Você quer realmente Fechar o Aplicativo?").setCancelable(false).setPositiveButton("SIM", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { MainActivity.this.finish(); } }).setNegativeButton("Não", new DialogInterface.OnClickListener() { public void onClick(DialogInterface dialog, int id) { dialog.cancel(); } }); AlertDialog alert = builder.create(); alert.show();
+        builder.setMessage("Você quer realmente Fechar o Aplicativo?").
+                setCancelable(false)
+                .setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create(); alert.show();
     }
 
     public void sair(){

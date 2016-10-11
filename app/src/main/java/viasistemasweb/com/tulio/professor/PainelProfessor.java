@@ -58,42 +58,13 @@ public class PainelProfessor extends ActionBarActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_painel_professor);
 
-        DataBaseHandler db = new DataBaseHandler(getApplicationContext());
+        /**
+            instancia a sessão do usuário
+            se não tiver logado manda para o login
+         */
+        session = new SessionManager(PainelProfessor.this);
+        session.checkLogin();
 
-       Professor objProfessor = new Professor();
-        objProfessor.isUserLoggedIn(PainelProfessor.this);
-
-        /** verifico se o usuário está logado */
-        UserFunctions u = new UserFunctions();
-        if(u.isUserLoggedIn(PainelProfessor.this)){
-            //ta logado
-            //Toast.makeText(MainActivity.this, "Usuario logado", Toast.LENGTH_SHORT).show();
-            /**
-             * Hashmap to load data from the Sqlite database
-             **/
-            HashMap userHash = new HashMap();
-            userHash = db.getUserDetails();
-            //String id = userHash.get()
-            String cpf = userHash.get("cpf").toString();
-            /** PushBots */
-            Pushbots.sharedInstance().init(this);
-
-            if(Pushbots.sharedInstance().isInitialized()){
-                Pushbots.sharedInstance().tag(cpf);
-                Pushbots.sharedInstance().getNotifyStatus();
-            }else{
-
-
-            }
-
-        }else{
-            Toast.makeText(PainelProfessor.this, "Usuario NÃO ESTÁ logado", Toast.LENGTH_SHORT).show();
-            Intent l = new Intent(PainelProfessor.this, Login.class);
-            Bundle b = new Bundle();
-            b.putBoolean("login", true);
-            l.putExtras(b);
-            startActivity(l);
-        }
         /**
          * Populando o ListView com imagens
          */

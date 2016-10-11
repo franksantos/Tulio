@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
+import viasistemasweb.com.tulio.Login;
+
 /**
  * Created by Frank on 10/06/2015.
  */
@@ -33,10 +35,10 @@ public class SessionManager {
     public static final String KEY_NAME = "cpf";
 
     // Tipo de usuário (make variable public to access from outside)
-    public static final String KEY_TIPOUSUARIO = "tipo_usuario";
+    public static final String KEY_TIPO_USUARIO = "tipo_usuario";
 
     // Turma do usuário (make variable public to access from outside)
-    public static final String KEY_TURMAUSUARIO = "turma";
+    public static final String KEY_TURMA_USUARIO = "turma";
 
     // Constructor
     public SessionManager(Context context){
@@ -57,10 +59,10 @@ public class SessionManager {
         editor.putString(KEY_NAME, cpf);
 
         // Armazenando o tipo de usuário no SharedPreferences
-        editor.putString(KEY_TIPOUSUARIO, tipoUsuario);
+        editor.putString(KEY_TIPO_USUARIO, tipoUsuario);
 
         //Armaenando a turma do usuário
-        editor.putString(KEY_TURMAUSUARIO, turmaId);
+        editor.putString(KEY_TURMA_USUARIO, turmaId);
 
         // commit changes
         editor.commit();
@@ -75,15 +77,15 @@ public class SessionManager {
         // Check login status
         if(!this.isLoggedIn()){
             // user is not logged in redirect him to Login Activity
-            //Intent i = new Intent(_context, Login.class);
+            Intent i = new Intent(_context, Login.class);
             // Closing all the Activities
-            //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             // Add new Flag to start new Activity
-            //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             // Staring Login Activity
-            //_context.startActivity(i);
+            _context.startActivity(i);
         }
 
     }
@@ -99,7 +101,7 @@ public class SessionManager {
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
         // tipo de usuario
-        user.put(KEY_TIPOUSUARIO, pref.getString(KEY_TIPOUSUARIO, null));
+        user.put(KEY_TIPO_USUARIO, pref.getString(KEY_TIPO_USUARIO, null));
 
         // return user
         return user;

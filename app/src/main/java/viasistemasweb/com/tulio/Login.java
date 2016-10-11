@@ -58,8 +58,10 @@ public class Login extends ActionBarActivity {
     private static String KEY_SUCCESS = "success";
     private static String CPF_NODE = "cpf";
 
+    DataBaseHandler db = new DataBaseHandler(Login.this);
+
     // Session Manager Class
-    //SessionManager session;
+    SessionManager session;
 
 
     @Override
@@ -87,6 +89,8 @@ public class Login extends ActionBarActivity {
         edCpf9 = (EditText)findViewById(R.id.edCpf9);
         edCpf10 = (EditText)findViewById(R.id.edCpf10);
         edCpf11 = (EditText)findViewById(R.id.edCpf11);
+
+
 
         /**
          * ####################################
@@ -512,14 +516,27 @@ public class Login extends ActionBarActivity {
             @Override
             protected void onPostExecute(Boolean th){
 
-                if(th == true){
+                if(th){
                     nDialog.dismiss();
-                    new ProcessLogin().execute();
                 }
                 else{
                     nDialog.dismiss();
                     loginErrorMsg.setText("Erro Conexão de Internet");
                 }
+                EditText Cpf1 = (EditText) findViewById(R.id.edCpf1);
+                EditText Cpf2 = (EditText) findViewById(R.id.edCpf2);
+                EditText Cpf3 = (EditText) findViewById(R.id.edCpf3);
+                EditText Cpf4 = (EditText) findViewById(R.id.edCpf4);
+                EditText Cpf5 = (EditText) findViewById(R.id.edCpf5);
+                EditText Cpf6 = (EditText) findViewById(R.id.edCpf6);
+                EditText Cpf7 = (EditText) findViewById(R.id.edCpf7);
+                EditText Cpf8 = (EditText) findViewById(R.id.edCpf8);
+                EditText Cpf9 = (EditText) findViewById(R.id.edCpf9);
+                EditText Cpf10 = (EditText) findViewById(R.id.edCpf10);
+                EditText Cpf11 = (EditText) findViewById(R.id.edCpf11);
+                String cpf;
+                cpf = Cpf1.getText().toString()+Cpf2.getText().toString()+Cpf3.getText().toString()+Cpf4.getText().toString()+Cpf5.getText().toString()+Cpf6.getText().toString()+Cpf7.getText().toString()+Cpf8.getText().toString()+Cpf9.getText().toString()+Cpf10.getText().toString()+Cpf11.getText().toString();
+                new ProcessLogin().execute(cpf);
             }
         }
 
@@ -527,10 +544,7 @@ public class Login extends ActionBarActivity {
          * Async Task to get and send data to My Sql database through JSON respone.
          **/
         private class ProcessLogin extends AsyncTask<String, Void, JSONObject> {
-
             private ProgressDialog pDialog;
-
-            String cpf;
 
             @Override
             protected void onPreExecute() {
@@ -547,114 +561,29 @@ public class Login extends ActionBarActivity {
             @Override
             protected JSONObject doInBackground(String... args) {
                 //Faz o login pegando os dados da internet
-                EditText Cpf1 = (EditText) findViewById(R.id.edCpf1);
-                EditText Cpf2 = (EditText) findViewById(R.id.edCpf2);
-                EditText Cpf3 = (EditText) findViewById(R.id.edCpf3);
-                EditText Cpf4 = (EditText) findViewById(R.id.edCpf4);
-                EditText Cpf5 = (EditText) findViewById(R.id.edCpf5);
-                EditText Cpf6 = (EditText) findViewById(R.id.edCpf6);
-                EditText Cpf7 = (EditText) findViewById(R.id.edCpf7);
-                EditText Cpf8 = (EditText) findViewById(R.id.edCpf8);
-                EditText Cpf9 = (EditText) findViewById(R.id.edCpf9);
-                EditText Cpf10 = (EditText) findViewById(R.id.edCpf10);
-                EditText Cpf11 = (EditText) findViewById(R.id.edCpf11);
-
-                cpf = Cpf1.getText().toString()+Cpf2.getText().toString()+Cpf3.getText().toString()+Cpf4.getText().toString()+Cpf5.getText().toString()+Cpf6.getText().toString()+Cpf7.getText().toString()+Cpf8.getText().toString()+Cpf9.getText().toString()+Cpf10.getText().toString()+Cpf11.getText().toString();
                 UserFunctions userFunction = new UserFunctions();
-                JSONObject json = userFunction.loginUser(cpf);
-
-                JSONArray dados = null;
-                try {
-                    String testejson = json.toString();
-                    int a = 0;
-                    dados = json.getJSONArray("alunos");
-                    JSONObject d = dados.getJSONObject(0);
-                    String turma_id=d.getString("turma_id");
-                    int teet =0;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
+                JSONObject json = userFunction.loginUser(args[0]);
                 return json;
             }
 
             @Override
             protected void onPostExecute(JSONObject json) {
-                Integer turmaId = 0;
                 try {
                     String ujson = json.toString();
                     if (json.getString(KEY_SUCCESS) != null) {
-                   /* se for Pai o JSON vem no formato abaixo */
-                        /**{
-                            "success": "1",
-                                "cpf": "36985274108",
-                                "fic_id": 4,
-                                "tipo_usuario": "p",
-                                "pai_id": 3,
-                                "alunos": [
-                            {
-                                "id": 2,
-                                    "alu_fic_id": 5,
-                                    "alu_tur_id": 1,
-                                    "created_at": "2016-09-20 23:43:37",
-                                    "updated_at": "2016-09-20 23:43:37",
-                                    "pivot": {
-                                        "pai_id": 3,
-                                        "alu_id": 2
-                                    }
-                            }
-                            ]
-                        }*/
-
-                    /* se for Professor o JSON vem no formato abaixo*/
-                        /**
-                          {"success":"1","cpf":"12345678900","fic_id":19,"tipo_usuario":"t","turma_id":1}
-                         * */
-
                         String res = json.getString(KEY_SUCCESS);
                         int resInt = Integer.parseInt(res);
 
                         if(resInt > 0){
-                            //sucesso encontrou o cpf no bb MySQL
-                            pDialog.setMessage("Aguarde, carregando...");
-                            pDialog.setTitle("Checando os Dados");
-                            //pDialog.setMax(1000);
-                            //DataBaseHandler db = new DataBaseHandler(getApplicationContext());
-                            DataBaseHandler db = new DataBaseHandler(Login.this);
                             /**
                              armazena os dados do JSON em variáveis conforme o tipo de usuário
                              **/
                             String cpfMySQL = json.getString("cpf");//pega o cpf retornado do json
                             Log.d("cpf do mysql", cpfMySQL);
                             String tipoUsuario = json.getString("tipo_usuario");
-                            Log.d("tipo Usuario", tipoUsuario);
-                            if(tipoUsuario == "t"){
-                                /**
-                                  {
-                                  "success":"1",
-                                  "cpf":"12345678900",
-                                  "fic_id":19,
-                                  "tipo_usuario":"t",
-                                  "turma_id":1
-                                  }
-                                  */
-                                //varáveis para o usuario do tipo professor
-                                String turma_id = json.getString("turma_id");
-                                turmaId = Integer.parseInt(turma_id);
-                                Log.d("turma_Id", turmaId.toString());
-                            }
-                            if(tipoUsuario == "p"){
-                                //pegar a turma id do aluno
-                                JSONArray dadosDoAluno = json.getJSONArray("alunos");
-                                JSONObject d = dadosDoAluno.getJSONObject(0);
-                                String turma_id = d.getString("alu_tur_id");
-                                turmaId = Integer.parseInt(turma_id);
-                                Log.d("turma_Id", turmaId.toString());
-                            }
-
-                            /** Salva o usuário encontrado no banco de dados SQLITE */
-                            db.addUser(cpfMySQL, tipoUsuario, turmaId);//salva o usuario na tabela login do SQLite
+                            //valor padrão para a turma,
+                            //para cada tipo de usuário a turma é pega no Json retornado
+                            String turmaId = "0";
                             /**
                              * pega o tipo de usuário
                              * se p = parent (PAI) redireciona para o mainactivity
@@ -662,49 +591,69 @@ public class Login extends ActionBarActivity {
                              * se s = student (ESTUDANTE) redireciona para o mainactivity
                              */
                             switch (tipoUsuario){
+                                /** PAI */
+                            /* se for Pai o JSON vem no formato abaixo */
+                                /**{
+                                 "success": "1",
+                                 "cpf": "36985274108",
+                                 "fic_id": 4,
+                                 "tipo_usuario": "p",
+                                 "pai_id": 3,
+                                 "alunos": [
+                                 {
+                                 "id": 2,
+                                 "alu_fic_id": 5,
+                                 "alu_tur_id": 1,
+                                 "created_at": "2016-09-20 23:43:37",
+                                 "updated_at": "2016-09-20 23:43:37",
+                                 "pivot": {
+                                 "pai_id": 3,
+                                 "alu_id": 2
+                                 }
+                                 }
+                                 ]
+                                 }*/
                                 case "p":
-                                    //tipo_usuario = pai
-                                    //leva o usuário a MainActivity
-                                    login = false;
-                                    Log.d("login", String.valueOf(login));
-                                    /*
-                                        grava os dados no SharedPreferences
+                                    //O pai não tem ID da turma, então é zero, depois vai ser alterado
+
+                                    /*  grava os dados no SharedPreferences
                                         chamanbdo o método que faz a gravação
                                      */
                                     String cpfUser = json.getString("cpf");
-
                                     Log.e("tipo_usuario", tipoUsuario);
                                     salvaSessaoUsuario(cpfUser, tipoUsuario, turmaId);
-                                    boolean teste = salvaSessaoUsuario(cpfUser,tipoUsuario,turmaId);
-
-                                    //seta o PushBots
-                                    setTagPushBots(cpfUser, turmaId);
+                                    //seta a TAG no Pushbots
+                                    if (Pushbots.sharedInstance().isInitialized()) {
+                                        //seta o PushBots
+                                        setTagPushBots(cpfUser, turmaId);
+                                    } else {
+                                        pDialog.setMessage("O usuário não foi salvo. Houve um erro ao salvar o usuário");
+                                        pDialog.setTitle("ERRO AO SALVAR USUÁRIO");
+                                        break;
+                                    }
                                     //passa os dados para a próxima Activity
-
-                                    Bundle b = new Bundle();
-                                    b.putBoolean("login", login);
                                     Intent t = new Intent(Login.this, MainActivity.class);
                                     t.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    t.putExtras(b);
                                     startActivity(t);
                                     break;
                                 case "t":
-                                    //startActivity(upanel);
-                                    //passa o parametro login false para a MainActivity
-                                    login = false;
-                                    Log.d("login", String.valueOf(login));
-                                    /*
-                                        grava os dados no SharedPreferences
-                                        chamanbdo o método que faz a gravação
-                                     */
+                                    /* se for Professor o JSON vem no formato abaixo*/
+                                    /**
+                                     {
+                                     "success":"1",
+                                     "cpf":"12345678900",
+                                     "fic_id":19,
+                                     "tipo_usuario":"t",
+                                     "turma_id":1
+                                     }
+                                     * */
                                     String cpfUserProfessor = json.getString("cpf");
-                                    int i2=0;
-                                    Log.e("tipo_usuario", tipoUsuario);
+                                    turmaId = json.getString("turma_id"); //pega a turma do professor
                                     if( salvaSessaoUsuario(cpfUserProfessor, tipoUsuario, turmaId) ) {
                                         //se tiver salvo os dados do usuário
                                         // na sessão com sharedpreferences
                                         //verifica se o pushbots foi iniciado
-                                        //se sim set a TAG turma no pushbots
+                                        //se sim seta a TAG turma no pushbots
                                         if (Pushbots.sharedInstance().isInitialized()) {
                                             //seta o PushBots
                                             setTagPushBots(cpfUserProfessor, turmaId);
@@ -726,6 +675,36 @@ public class Login extends ActionBarActivity {
                                     t1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     t1.putExtras(b1);
                                     startActivity(t1);
+                                    break;
+                                case "s":
+                                    /* se for Estudante o JSON vem no formato abaixo*/
+                                    /**
+                                     {
+                                     "success":"1",
+                                     "cpf":"12345678900",
+                                     "fic_id":21,
+                                     "tipo_usuario":"s",
+                                     "turma_id":8
+                                     }
+                                     * */
+
+                                    String cpfAluno = json.getString("cpf");
+                                    String turmaAluno = json.getString("turma_id");//pega a turma do aluno
+                                    salvaSessaoUsuario(cpfAluno, tipoUsuario, turmaAluno);
+                                    //seta a TAG no Pushbots
+                                    if (Pushbots.sharedInstance().isInitialized()) {
+                                        //seta o PushBots
+                                        setTagPushBots(cpfAluno, turmaAluno);
+                                    } else {
+                                        pDialog.setMessage("O usuário não foi salvo. Houve um erro ao salvar o usuário");
+                                        pDialog.setTitle("ERRO AO SALVAR USUÁRIO");
+                                        break;
+                                    }
+                                    //passa os dados para a próxima Activity
+
+                                    Intent ta = new Intent(Login.this, MainActivity.class);
+                                    ta.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(ta);
                                     break;
                             }
                             /* chama o método que salva o cpf e tipo de usuário no SharedPreferences
@@ -751,7 +730,7 @@ public class Login extends ActionBarActivity {
             }
     /** FIM da classe internas */
 
-    public boolean setTagPushBots(String cpf, Integer turmaId){
+    public boolean setTagPushBots(String cpf, String turmaId){
         if((cpf!=null && turmaId!=null) || (cpf!="") ) {
             //pushbots
             Pushbots.sharedInstance().regID();
@@ -776,13 +755,17 @@ public class Login extends ActionBarActivity {
      * Método salvaSessaoUsuario
      * para salvar o CPF do usuário e persistir essa informação para as outras activity
      */
-    public boolean salvaSessaoUsuario(String cpfDoUsuario, String tipoUsuario, Integer turmaId){
-        SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", 0);
+    public boolean salvaSessaoUsuario(String cpfDoUsuario, String tipoUsuario, String turmaId){
+
+        session = new SessionManager(Login.this);
+        session.createLoginSession(cpfDoUsuario,tipoUsuario,turmaId);
+        return true;
+        /*SharedPreferences sharedPreferences = getSharedPreferences("DadosDoUsuario", 0);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("cpf", cpfDoUsuario);
         editor.putString("tipo", tipoUsuario);
         editor.putInt("turma", turmaId);
-        return editor.commit();
+        return editor.commit();*/
     }
 
 

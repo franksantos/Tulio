@@ -10,12 +10,13 @@
     tools:context="viasistemasweb.com.tulio.professor.ConfirmaCadAviso">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/headerProgress"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginTop="50dp">
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
@@ -23,7 +24,8 @@
             android:layout_height="fill_parent"
             android:id="@+id/progressBar"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp" />
     </LinearLayout>
 
 
@@ -31,7 +33,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Large"
-        android:text="Aviso Cadastrado e Enviado com SUCESSO"
         android:id="@+id/labelAvisoSucesso"
         android:textStyle="bold"
         android:textAlignment="center"

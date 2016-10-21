@@ -13,4 +13,6 @@
     <item name="darkgreen" type="color">#FF669900</item>
 
     <color name="black_overlay">#66000000</color>
+    <color name="darkgreen2">#011ad7</color>
+    <color name="bluepersonal">#2626d1</color>
 </resources>

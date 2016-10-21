@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/logo"
-        android:src="@drawable/logo"
+        android:src="@drawable/tulio_png"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp" />
 

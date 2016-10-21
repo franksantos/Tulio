@@ -37,6 +37,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import viasistemasweb.com.tulio.activities_not_users.Registration;
 import viasistemasweb.com.tulio.library.ChecaInternet;
 import viasistemasweb.com.tulio.library.DataBaseHandler;
 import viasistemasweb.com.tulio.library.SessionManager;
@@ -789,6 +790,11 @@ public class Login extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onRegistredUser(View view){
+        Intent i = new Intent(Login.this, Registration.class);
+        startActivity(i);
     }
 
 

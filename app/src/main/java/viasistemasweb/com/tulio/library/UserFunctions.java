@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import viasistemasweb.com.tulio.JSONParser;
+
 /**
  * Created by Frank on 25/05/2015.
  */
@@ -20,7 +22,7 @@ public class UserFunctions {
     private ProgressDialog pDialog;
     private static String cpf;
 
-    private JSONParserLogin jsonParser;
+    private JSONParser jsonParser;
 
 //    private static String loginURL = "http://www.fegv.com.br/tulio_api/resposta_login_json.php";
     private static String loginURL = "http://tulioappweb.herokuapp.com/api/v1/login/index";
@@ -31,7 +33,7 @@ public class UserFunctions {
 
     // constructor
     public UserFunctions() {
-        jsonParser = new JSONParserLogin();
+        jsonParser = new JSONParser();
     }
 
     /**
@@ -46,7 +48,7 @@ public class UserFunctions {
         List params = new ArrayList();
         //params.add(new BasicNameValuePair("tag", login_tag));
         params.add(new BasicNameValuePair("cpf", cpf));
-        JSONObject json = jsonParser.getJSONFromUrl(loginURL, params);
+        JSONObject json = jsonParser.makeHttpRequest(loginURL, "GET", params);
         try {
             String teste = json.get("cpf").toString();
         } catch (JSONException e) {
@@ -74,7 +76,8 @@ public class UserFunctions {
         params.add(new BasicNameValuePair("password", password));
 
         // getting JSON Object
-        JSONObject json = jsonParser.getJSONFromUrl(registerURL, params);
+//        JSONObject json = jsonParser.getJSONFromUrl(registerURL, params);
+        JSONObject json = jsonParser.makeHttpRequest(registerURL, "POST", params);
         // return json
         return json;
     }

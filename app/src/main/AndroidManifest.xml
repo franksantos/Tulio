@@ -19,7 +19,7 @@
     <uses-permission android:name="viasistemasweb.com.tulio.permission.C2D_MESSAGE" />
     <!-- This app has permission to register and receive dataf message. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- #### FIM PushBots ### -->
     <application
         android:allowBackup="true"
@@ -173,7 +173,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".professor.ConfirmaCadAviso"></activity>
+        <activity android:name=".professor.ConfirmaCadAviso" />
+        <activity android:name=".activities_not_users.Registration"></activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

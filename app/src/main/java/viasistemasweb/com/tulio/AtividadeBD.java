@@ -44,6 +44,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import viasistemasweb.com.tulio.library.SessionManager;
+
 
 public class AtividadeBD extends ActionBarActivity {
 
@@ -66,15 +68,18 @@ public class AtividadeBD extends ActionBarActivity {
 
 
     // url to enviar os dados
-    //private static String url_pegar_json = "http://www.viasistemasweb.com.br/tulio/resposta_atividades_json_v2.php";
-    private static String url_pegar_json = "http://www.fegv.com.br/tulio_api/resposta_atividades_json.php";
+    private static String url_pegar_json = "http://tulioappweb.herokuapp.com/api/v1/atividades/index";
+//    private static String url_pegar_json = "http://www.fegv.com.br/tulio_api/resposta_atividades_json.php";
 
-    ProgressDialog barraDeProgresso;
+    private ProgressDialog barraDeProgresso;
+    private SessionManager sessionManager;
+    private HashMap<String, String> userDetails;
+    private String cpfUsuario, turmaId;
 
-    ListView listaAtividades;
-    String[] disciplina;
-    String[] atividade;
-    String[] dataEntrega;
+    private ListView listaAtividades;
+    private String[] disciplina;
+    private String[] atividade;
+    private String[] dataEntrega;
     int[] imagemAtividade = new int[]{
             R.drawable.icone_de_artes,
             R.drawable.icone_de_ciencias,
@@ -88,6 +93,8 @@ public class AtividadeBD extends ActionBarActivity {
     // Hashmap for ListView
     ArrayList<HashMap<String, String>> atividadesList = new ArrayList<HashMap<String, String>>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,14 +102,17 @@ public class AtividadeBD extends ActionBarActivity {
         /** *
          * Exibe a Atividade Vinda do Banco de Dados
          * */
-
+        //pega o turma_id do SharedPreferences
+        sessionManager = new SessionManager(AtividadeBD.this);
+        userDetails = sessionManager.getUserDetails();
+        turmaId = userDetails.get(sessionManager.KEY_TURMA_USUARIO);
         /**
          * Crio uma Thread para fazer o processamento em background e mostra um Dialog ao usuário
          * 1 - vai na internet, pega as últimas atividades cadastradas no banco de dados
          * 2 - exibe em um listview
          */
         /** -- Criando a Thread --- */
-        new GerarListaDeAtividades().execute();
+        new GerarListaDeAtividades().execute(turmaId);
 
         /**
          * Populando o ListView com imagens
@@ -167,10 +177,11 @@ public class AtividadeBD extends ActionBarActivity {
         protected ArrayList<HashMap<String, String>> doInBackground(String... args) {
             // Building Parameters
             //convertendo int para String
-            String id = "2";
 
             List<NameValuePair> parametros = new ArrayList<NameValuePair>();
-            parametros.add(new BasicNameValuePair("idDaTurma", id));
+            String m = args[0];
+            String m2 = "";
+            parametros.add(new BasicNameValuePair("idDaTurma", turmaId));
             // getting JSON Object
             // Note that create product url accepts POST method
             JSONObject json = jsonParser.makeHttpRequest(url_pegar_json, "GET", parametros);
@@ -178,7 +189,7 @@ public class AtividadeBD extends ActionBarActivity {
             //JSONObject maisumteste = new JSONObject(json.substring(json.indexOf("{"), json.lastIndexOf("}") + 1));
             int k = 0;
             // check log cat fro response
-//            Log.i("Resposta do JSON", json.toString());
+           Log.i("Resposta do JSON", json.toString());
             if(json != null){
                 try {
                     int success = json.getInt(TAG_SUCCESS);
@@ -239,7 +250,7 @@ public class AtividadeBD extends ActionBarActivity {
         protected void onPostExecute(ArrayList<HashMap<String, String>> param) {
             //fazendo o resultado acontecer
             final ArrayList<HashMap<String, String>> obj = param;
-
+            int teste3 = 0;
             // dismiss the dialog once done
             pDialog.dismiss();
             //teste

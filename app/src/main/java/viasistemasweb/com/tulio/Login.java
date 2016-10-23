@@ -621,7 +621,11 @@ public class Login extends ActionBarActivity {
                                         chamanbdo o método que faz a gravação
                                      */
                                     String cpfUser = json.getString("cpf");
-                                    Log.e("tipo_usuario", tipoUsuario);
+                                    JSONArray filhos = json.getJSONArray("alunos");
+                                    JSONObject listaDeFilhos = filhos.getJSONObject(0);
+                                    //agora armazeno cada item da lista de atividade em uma vari?vel
+                                    turmaId = listaDeFilhos.getString("alu_tur_id");
+                                    Log.d("turmaId=",turmaId);
                                     salvaSessaoUsuario(cpfUser, tipoUsuario, turmaId);
                                     //seta a TAG no Pushbots
                                     if (Pushbots.sharedInstance().isInitialized()) {

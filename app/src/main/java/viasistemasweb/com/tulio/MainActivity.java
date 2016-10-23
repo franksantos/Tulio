@@ -67,7 +67,8 @@ public class    MainActivity extends ActionBarActivity {
 
         session = new SessionManager(MainActivity.this);
         session.checkLogin();
-
+        HashMap<String, String> turma = session.getUserDetails();
+        Log.d("turma", turma.get(session.KEY_TURMA_USUARIO));
         /**
          * Populando o ListView com imagens
          */

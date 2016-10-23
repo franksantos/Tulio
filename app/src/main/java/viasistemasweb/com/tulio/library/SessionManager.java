@@ -101,7 +101,7 @@ public class SessionManager {
         user.put(KEY_NAME, pref.getString(KEY_NAME, null));
 
         // tipo de usuario
-        user.put(KEY_TIPO_USUARIO, pref.getString(KEY_TIPO_USUARIO, null));
+        user.put(KEY_TURMA_USUARIO, pref.getString(KEY_TURMA_USUARIO, null));
 
         // return user
         return user;

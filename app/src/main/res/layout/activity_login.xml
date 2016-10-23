@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imgLogoLogin"
-        android:src="@drawable/logo"
+        android:src="@drawable/tulio_png"
         android:layout_gravity="center_horizontal" />
 
     <TextView

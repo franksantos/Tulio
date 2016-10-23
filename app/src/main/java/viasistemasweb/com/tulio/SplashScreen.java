@@ -77,17 +77,35 @@ public class SplashScreen extends ActionBarActivity {
 
     }
 
-    class ChecaUsuarioLogado extends AsyncTask<Void, Void, Void>
+    class ChecaUsuarioLogado extends AsyncTask<Void, Void, Boolean>
     {
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Boolean doInBackground(Void... params) {
 
             /** verifico se o usuário está logado */
             session = new SessionManager(SplashScreen.this);
-            session.checkLogin();
+            return session.isLoggedIn();
 
-            return null;
+//            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if(aBoolean){
+                //tá logado
+                Intent i = new Intent(SplashScreen.this, MainActivity.class);
+                startActivity(i);
+            }else{
+                //não tá logado
+                Intent j = new Intent(SplashScreen.this, Login.class);
+                // Closing all the Activities
+                j.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                // Add new Flag to start new Activity
+                j.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(j);
+            }
         }
     }
 

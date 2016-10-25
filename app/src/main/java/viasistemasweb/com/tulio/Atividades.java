@@ -61,6 +61,7 @@ public class Atividades extends ActionBarActivity {
     private String envia;
     URL u;
     private String hora;
+    private SessionManager session;
 
 
     String[] tituloAtividade;
@@ -173,33 +174,29 @@ public class Atividades extends ActionBarActivity {
             c = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             hora = sdf.format(c.getTime());
-            Log.d("hora", hora);//é para exibir: 2015-09-09 04:30:09
 
             /**°//
-             * TESTE
+             * pegando o CPF do usuário salvo no banco de dados local no SharedPreferences
              */
-            DataBaseHandler db = new DataBaseHandler(getApplicationContext());
+            session = new SessionManager(getApplicationContext());
             //pega o cpf salvo no dispostivo no DB SQLite
-            HashMap<String, String> teste = new HashMap<String, String>();
-            teste = db.getUserDetails();
-            String cc = teste.get("cpf");
-            String cpfDoUsuario = cc;
-            Log.d("cpfTESTE", cpfDoUsuario);
+            HashMap<String, String> perfil = session.getUserDetails();
+            String cpfDoUsuario = perfil.get(session.KEY_NAME);
             /**
-             * FIM DO TESTE
+             * contactando o servidor e passando os dados da notificação
              */
 
 
-            /*
-            Salvando no banco de dados remoto
-             */
-            //codificando a URL
-            try {
-                hora = URLEncoder.encode(hora,"UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            connect(URLGET+"?cpf="+cpfDoUsuario+"&hora="+hora);
+//            /*
+//            Salvando no banco de dados remoto
+//             */
+//            //codificando a URL
+//            try {
+//                hora = URLEncoder.encode(hora,"UTF-8");
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+//            connect(URLGET+"?cpf="+cpfDoUsuario+"&hora="+hora);
 
             return null;
         }
